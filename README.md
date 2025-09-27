@@ -6,7 +6,7 @@ Hacer una página web para darle promoción a un negocio de comida, en este caso
 
 ### **Ubicación del Local**
 
-(https://maps.app.goo.gl/6TXuh4N9G5e2TtdDA)
+Aquí se encuentra [La Siberial](https://maps.app.goo.gl/6TXuh4N9G5e2TtdDA).
 
 
 > **Objetivo**
