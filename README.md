@@ -1,2 +1,3 @@
-# ProyectoLaSiberial
+# Proyecto: La Siberial
+## Equipo: AK
 
