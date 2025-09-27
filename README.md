@@ -1,13 +1,13 @@
 # Proyecto: La Siberial
 ## Equipo: AK
-> **Descripción**
-
-Hacer una página web para darle promoción a un negocio de comida, en este caso la siberia que administra un amigo, vamos a intentar hacerla lo más interesante posible para captar la atención de la gente y poder apoyarlos.
 
 ### **Ubicación del Local**
 
 Aquí se encuentra [La Siberial](https://maps.app.goo.gl/6TXuh4N9G5e2TtdDA).
 
+> **Descripción**
+
+Hacer una página web para darle promoción a un negocio de comida, en este caso la siberia que administra un amigo, vamos a intentar hacerla lo más interesante posible para captar la atención de la gente y poder apoyarlos.
 
 > **Objetivo**
 
