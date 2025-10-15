@@ -1,83 +1,155 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Siberial</title>
-
     <style>
-        #S{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 200%;}
-        table{margin: auto;}
-    </style>
+        :root{
+            --accent:#d35400; /* naranja */
+            --dark:#2c3e50;
+            --muted:#7f8c8d;
+            --bg:#f7f7f8;
+            --card:#ffffff;
+        }
+        *{box-sizing: border-box}
+        body{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; background:var(--bg); color:var(--dark);}
+        header{background:linear-gradient(90deg, #f39c12, #d35400); color:white; padding:20px 16px; display:flex; align-items:center; gap:16px}
+        header img.logo{height:64px; width:64px; object-fit:cover; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.15)}
+        header h1{font-size:1.6rem; margin:0}
+        header p{margin:0; opacity:0.95}
 
+        main{max-width:1100px; margin:24px auto; padding:0 16px}
+
+        .grid{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:18px; align-items:start}
+        .card{background:var(--card); padding:14px; border-radius:10px; box-shadow:0 6px 18px rgba(44,62,80,0.06)}
+        .card h2{margin:0 0 8px 0; font-size:1.1rem}
+        .menu-list{line-height:1.6; color:var(--muted)}
+
+        .images-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:12px}
+        .images-row img{width:100%; max-width:200px; border-radius:8px; object-fit:cover}
+
+        /* Combos y bebidas */
+        .section{margin-top:18px}
+        .combo{display:flex; gap:12px; padding:10px; border-radius:8px; align-items:center}
+        .combo img{width:84px; height:64px; object-fit:cover; border-radius:6px}
+        .combo .meta{flex:1}
+        .price{font-weight:700; color:var(--accent)}
+
+        footer{max-width:1100px; margin:40px auto; padding:12px 16px; color:var(--muted); font-size:0.9rem}
+
+        @media (max-width:900px){
+            .grid{grid-template-columns: 1fr;}
+            header{flex-direction:column; align-items:flex-start}
+            .images-row img{max-width:48%}
+        }
+    </style>
 </head>
 <body>
 
-    <table>
-        <tr>
-            <th>
-                <img src="IMAGENES/Pollo Siberiano.jpg" alt="" height="200px" width="250px">
-            </th>
+    <header>
+        <img class="logo" src="IMAGENES/Pollo Siberiano.jpg" alt="Logo La Siberial">
+        <div>
+            <h1>La Siberial</h1>
+            <p>Realiza tu pedido y recoge en tienda</p>
+        </div>
+    </header>
 
-            <th id="S">
-                <hr>REALIZA TU PEDIDO<hr>
-            </th>
+    <main>
+        <div class="grid">
+            <section class="card">
+                <h2>Menú</h2>
+                <div class="menu-list">
+                    <div>Flautas de Pollo</div>
+                    <div>Flautas de Res</div>
+                    <div>Enmoladas</div>
+                    <div>Enchiladas Suizas</div>
+                    <div>Taco Siberiano</div>
+                    <div>Tostada Siberiana</div>
+                    <div>Tostada Siberiana Jr.</div>
+                </div>
+                <div class="images-row">
+                    <img src="IMAGENES/Tostada siberiana.jpg" alt="Tostada Siberiana">
+                    <img src="IMAGENES/Taco Siberiano.jpg" alt="Taco Siberiano">
+                    <img src="IMAGENES/Flautas.jpg" alt="Flautas">
+                    <img src="IMAGENES/Enchiladas.jpg" alt="Enchiladas">
+                </div>
+            </section>
 
-            <th id="S">
-                <hr>RECOGER<hr>
-            </th>
-        </tr>
-        <tr>
-            <td id="S">
-                Menú
-            </td>
-            
-            <td id="S">
-                Combos
-            </td>
+            <section class="card">
+                <h2>Combos</h2>
+                <p class="menu-list">Elige entre nuestros combos pensados para compartir o para una comida rápida y completa.</p>
 
-            <td id="S">
-                Bebidas
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Flautas de Pollo
-            <br>
-                Flautas de Res
-            <br>
-                Enmoladas
-            <br>
-                Enchiladas Suizas
-            <br>
-                Taco Siberiano
-            <br>
-                Tostada Siberiana
-            <br>
-                Tostada Siberiana Jr.
-            </td>
-        </tr>
-        
-        <br>
-        
-        <tr>
-            <td>
-                <img src="IMAGENES/Tostada siberiana.jpg" alt="" height="200px" width="200px">
-            </td>
-            <td>
-                <img src="IMAGENES/Taco Siberiano.jpg" alt="" height="200px" width="200px">
-            </td>
-            <td>
-                <img src="IMAGENES/Tostada siberiana.jpg" alt="" height="200px" width="200px">
-            </td>
-            <td>
-                <img src="IMAGENES/Flautas.jpg" alt="" height="200px" width="200px">
-            </td>
-            <td>
-                <img src="IMAGENES/Enchiladas.jpg" alt="" height="200px" width="200px">
-            </td>
-        </tr>
-    </table>
-    
+                <div class="section" id="combos-list">
+                    <div class="combo">
+                        <img src="IMAGENES/Tostada siberiana.jpg" alt="Combo 1">
+                        <div class="meta">
+                            <div><strong>Combo Siberiano 1</strong> — Tostada + bebida</div>
+                            <div class="menu-list">Incluye: Tostada grande, guarnición y bebida.</div>
+                        </div>
+                        <div class="price">$99</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Taco Siberiano.jpg" alt="Combo 2">
+                        <div class="meta">
+                            <div><strong>Combo Siberiano 2</strong> — 2 Tacos + papas</div>
+                            <div class="menu-list">Ideal para compartir. Incluye salsa casera.</div>
+                        </div>
+                        <div class="price">$129</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Flautas.jpg" alt="Combo 3">
+                        <div class="meta">
+                            <div><strong>Combo Familiar</strong> — 6 Flautas + 3 bebidas</div>
+                            <div class="menu-list">Perfecto para 3-4 personas.</div>
+                        </div>
+                        <div class="price">$249</div>
+                    </div>
+                    <div class="combo">
+                        <img src="../ProyectoLaSiberial/IMAGENES/Enchiladas.jpg" alt="combo 4">
+                        <div class="meta">
+                            <div><strong>Platillo</strong>5 piezas</div>
+                            <div class="menu-list">Perfecto para mi</div>
+                        </div>
+                        <div class="price">$570</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Bebidas</h2>
+                <p class="menu-list">Bebidas frías y calientes para acompañar tu pedido.</p>
+
+                <div class="section" id="bebidas-list">
+                    <div class="combo">
+                        <img src="IMAGENES/bebida.jpg" alt="Refresco">
+                        <div class="meta">
+                            <div><strong>Refresco</strong></div>
+                            <div class="menu-list">Lata o botella pequeña.</div>
+                        </div>
+                        <div class="price">$25</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/agua.jpg" alt="Agua">
+                        <div class="meta">
+                            <div><strong>Agua Mineral</strong></div>
+                            <div class="menu-list">500 ml.</div>
+                        </div>
+                        <div class="price">$20</div>
+                    </div>
+
+                
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        © La Siberial — Recoger en tienda |
+    </footer>
+
 </body>
 </html>
