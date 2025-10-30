@@ -15,10 +15,14 @@
         }
         *{box-sizing: border-box}
         body{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; background:var(--bg); color:var(--dark);}
-        header{background:linear-gradient(90deg, #f39c12, #d35400); color:white; padding:20px 16px; display:flex; align-items:center; gap:16px}
+        header{background:linear-gradient(90deg, #f39c12, #d35400); color:white; padding:20px 16px; display:flex; align-items:center; gap:16px; justify-content:space-between}
+        header .left-side{display:flex; align-items:center; gap:16px}
         header img.logo{height:64px; width:64px; object-fit:cover; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.15)}
         header h1{font-size:1.6rem; margin:0}
         header p{margin:0; opacity:0.95}
+        nav{display:flex; gap:24px}
+        nav a{color:white; text-decoration:none; padding:8px 16px; border-radius:6px; transition:background 0.2s}
+        nav a:hover{background:rgba(255,255,255,0.1)}
 
         main{max-width:1100px; margin:24px auto; padding:0 16px}
 
@@ -49,11 +53,18 @@
 <body>
 
     <header>
-        <img class="logo" src="IMAGENES/Pollo Siberiano.jpg" alt="Logo La Siberial">
-        <div>
-            <h1>La Siberial</h1>
-            <p>Realiza tu pedido y recoge en tienda</p>
+        <div class="left-side">
+            <img class="logo" src="IMAGENES/Pollo Siberiano.jpg" alt="Logo La Siberial">
+            <div>
+                <h1>La Siberial</h1>
+                <p>Realiza tu pedido y recoge en tienda</p>
+            </div>
         </div>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="menú.html">Menú</a>
+            <a href="conócenos.html">Conócenos</a>
+        </nav>
     </header>
 
     <main>
@@ -197,7 +208,7 @@
                     <div class="combo">
                         <img src="IMAGENES/Enchiladas.jpg" alt="Guacamole">
                         <div class="meta">
-                            <div><strong>Guacamole</strong> — Porción individual</div>
+                            <div><strong><a href="menú.html">menu</a></strong> — Porción individual</div>
                         </div>
                         <div class="price">$25</div>
                     </div>
