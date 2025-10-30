@@ -22,7 +22,7 @@
 
         main{max-width:1100px; margin:24px auto; padding:0 16px}
 
-        .grid{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:18px; align-items:start}
+        .grid{display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; grid-auto-flow:row}
         .card{background:var(--card); padding:14px; border-radius:10px; box-shadow:0 6px 18px rgba(44,62,80,0.06)}
         .card h2{margin:0 0 8px 0; font-size:1.1rem}
         .menu-list{line-height:1.6; color:var(--muted)}
@@ -60,11 +60,8 @@
         <div class="grid">
             <section class="card">
                 <h2>Platillos</h2>
-                <div class="menu-list">
-                <p class="menu-list">Elige entre nuestros platillos pensados completamente para ti .</p>
-                </div>
-
-               <div class="combo">
+                <p class="menu-list">Elige entre nuestros platillos pensados completamente para ti.</p>
+                <div class="combo">
                         <img src="IMAGENES/Enchiladas.jpg" alt="">
                         <div class="meta">
                             <div><strong>Enchiladas Suizas <br>(5 pzas.)</strong> — Acompañadas con arroz y lechuga</div>
@@ -193,6 +190,37 @@
             </section>
 
             <section class="card">
+                <h2>Extras</h2>
+                <p class="menu-list">Complementos para tu platillo principal.</p>
+
+                <div class="section">
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Guacamole">
+                        <div class="meta">
+                            <div><strong>Guacamole</strong> — Porción individual</div>
+                        </div>
+                        <div class="price">$25</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Consomé Extra">
+                        <div class="meta">
+                            <div><strong>Consomé Extra</strong> — Porción individual</div>
+                        </div>
+                        <div class="price">$30</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Arroz">
+                        <div class="meta">
+                            <div><strong>Arroz Extra</strong> — Porción individual</div>
+                        </div>
+                        <div class="price">$20</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
                 <h2>Bebidas</h2>
                 <p class="menu-list">Bebidas frías y calientes para acompañar tu pedido.</p>
 
@@ -214,8 +242,161 @@
                         </div>
                         <div class="price">$20</div>
                     </div>
+                </div>
+            </section>
 
-                
+            <section class="card">
+                <h2>Antojitos</h2>
+                <p class="menu-list">Deliciosos antojitos mexicanos para disfrutar.</p>
+
+                <div class="section">
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Quesadillas">
+                        <div class="meta">
+                            <div><strong>Quesadillas</strong> — Con queso y guarnición</div>
+                        </div>
+                        <div class="price">$45</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Tostadas">
+                        <div class="meta">
+                            <div><strong>Tostadas de Pollo</strong> — Con frijoles y verdura</div>
+                        </div>
+                        <div class="price">$35</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Sopes">
+                        <div class="meta">
+                            <div><strong>Sopes</strong> — Con frijoles, pollo y verdura</div>
+                        </div>
+                        <div class="price">$40</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Postres</h2>
+                <p class="menu-list">Deliciosos postres para terminar tu comida.</p>
+
+                <div class="section">
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Flan">
+                        <div class="meta">
+                            <div><strong>Flan Napolitano</strong> — Porción individual</div>
+                        </div>
+                        <div class="price">$35</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Gelatina">
+                        <div class="meta">
+                            <div><strong>Gelatina Mosaico</strong> — Porción individual</div>
+                        </div>
+                        <div class="price">$25</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Arroz con Leche">
+                        <div class="meta">
+                            <div><strong>Arroz con Leche</strong> — Porción individual</div>
+                        </div>
+                        <div class="price">$30</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Promociones</h2>
+                <p class="menu-list">Aprovecha nuestras promociones especiales.</p>
+
+                <div class="section">
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Promo 1">
+                        <div class="meta">
+                            <div><strong>2x1 en Tacos Dorados</strong> — Todos los martes</div>
+                        </div>
+                        <div class="price">$90</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Promo 2">
+                        <div class="meta">
+                            <div><strong>Combo Familiar</strong> — 4 platillos + 4 bebidas</div>
+                        </div>
+                        <div class="price">$350</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Promo 3">
+                        <div class="meta">
+                            <div><strong>Postre Gratis</strong> — En consumo mayor a $200</div>
+                        </div>
+                        <div class="price">$0</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Para Compartir</h2>
+                <p class="menu-list">Platillos ideales para grupos y familias.</p>
+
+                <div class="section">
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Familiar 1">
+                        <div class="meta">
+                            <div><strong>Orden Familiar de Flautas</strong> — 15 piezas con guarnición</div>
+                        </div>
+                        <div class="price">$220</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Familiar 2">
+                        <div class="meta">
+                            <div><strong>Enchiladas para 4</strong> — 20 piezas con guarnición</div>
+                        </div>
+                        <div class="price">$280</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Familiar 3">
+                        <div class="meta">
+                            <div><strong>Mole Familiar</strong> — 4 porciones con arroz y tortillas</div>
+                        </div>
+                        <div class="price">$260</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Especiales del Día</h2>
+                <p class="menu-list">Platillos exclusivos que cambian diariamente.</p>
+
+                <div class="section">
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Especial 1">
+                        <div class="meta">
+                            <div><strong>Pozole</strong> — Solo jueves y domingos</div>
+                        </div>
+                        <div class="price">$85</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Especial 2">
+                        <div class="meta">
+                            <div><strong>Birria</strong> — Disponible sábados</div>
+                        </div>
+                        <div class="price">$90</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Especial 3">
+                        <div class="meta">
+                            <div><strong>Menudo</strong> — Solo domingos</div>
+                        </div>
+                        <div class="price">$80</div>
+                    </div>
                 </div>
             </section>
         </div>
