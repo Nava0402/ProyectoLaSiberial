@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="iconos/fontawesome-free-7.1.0-web/css/all.css">
+    <title>La Siberial</title>
+    <style>
+        :root{
+            --accent:#d35400; /* naranja */
+            --dark:#2c3e50;
+            --muted:#7f8c8d;
+            --bg:#f7f7f8;
+            --card:#ffffff;
+        }
+        *{box-sizing: border-box}
+        body{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; background:var(--bg); color:var(--dark);}
+        header{background:linear-gradient(90deg, #f39c12, #d35400); color:white; padding:20px 16px; display:flex; align-items:center; gap:16px}
+        header img.logo{height:64px; width:64px; object-fit:cover; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.15)}
+        header h1{font-size:1.6rem; margin:0}
+        header p{margin:0; opacity:0.95}
+
+        main{max-width:1100px; margin:24px auto; padding:0 16px}
+
+        .grid{display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; grid-auto-flow:row}
+        .card{background:var(--card); padding:14px; border-radius:10px; box-shadow:0 6px 18px rgba(44,62,80,0.06)}
+        .card h2{margin:0 0 8px 0; font-size:1.1rem}
+        .menu-list{line-height:1.6; color:var(--muted)}
+
+        .images-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:12px}
+        .images-row img{width:100%; max-width:200px; border-radius:8px; object-fit:cover}
+
+        /* Combos y bebidas */
+        .section{margin-top:18px}
+        .combo{display:flex; gap:12px; padding:10px; border-radius:8px; align-items:center}
+        .combo img{width:84px; height:64px; object-fit:cover; border-radius:6px}
+        .combo .meta{flex:1}
+        .price{font-weight:700; color:var(--accent)}
+
+        footer{max-width:1100px; margin:40px auto; padding:12px 16px; color:var(--muted); font-size:0.9rem}
+
+        @media (max-width:900px){
+            .grid{grid-template-columns: 1fr;}
+            header{flex-direction:column; align-items:flex-start}
+            .images-row img{max-width:48%}
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img class="logo" src="IMAGENES/Pollo Siberiano.jpg" alt="Logo La Siberial">
+        <div>
+            <h1>La Siberial</h1>
+            <p>Realiza tu pedido y recoge en tienda</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="grid">
+            <section class="card">
+                <h2>Platillos</h2>
+                <p class="menu-list">Elige entre nuestros platillos pensados completamente para ti.</p>
+                <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="">
+                        <div class="meta">
+                            <div><strong>Enchiladas Suizas <br>(5 pzas.)</strong> — Acompañadas con arroz y lechuga</div>
+                        </div>
+                        <div class="price">$100</div>
+                    </div>
+
+               <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="">
+                        <div class="meta">
+                            <div><strong>Tacos Dorados <br>(5 pzas.)</strong> — Acompañadas con arroz y lechuga</div>
+                        </div>
+                        <div class="price">$90</div>
+                    </div>
+
+               <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="">
+                        <div class="meta">
+                            <div><strong>Enmoladas <br>(5 pzas.)</strong> — Acompañadas con arroz y lechuga</div>
+                        </div>
+                        <div class="price">$90</div>
+                    </div>
+
+                <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="">
+                        <div class="meta">
+                            <div><strong>Ensalada de pollo</strong> — Acompañada con arroz</div>
+                        </div>
+                        <div class="price">$80</div>
+                    </div>
+
+                <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="">
+                        <div class="meta">
+                            <div><strong>Flautas de Pollo <br>(5 pzas.)</strong> — Acompañadas con arroz y lechuga</div>
+                        </div>
+                        <div class="price">$90</div>
+                    </div>
+
+                <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="">
+                        <div class="meta">
+                            <div><strong>Flautas de Res <br>(5 pzas.)</strong> — Acompañadas con arroz y lechuga</div>
+                        </div>
+                        <div class="price">$90</div>
+                    </div>
+
+                <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="">
+                        <div class="meta">
+                            <div><strong>Milanesa Empanizada</strong> — Acompañada con arroz y lechuga</div>
+                        </div>
+                        <div class="price">$100</div>
+                    </div>
+
+                <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="">
+                        <div class="meta">
+                            <div><strong>Mole Especial <br>(pechuga)</strong> — Acompañado con arroz y lechuga</div>
+                        </div>
+                        <div class="price">$80</div>
+                    </div>
+
+                <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="">
+                        <div class="meta">
+                            <div><strong>Mole Sencillo <br>(pierna)</strong> — Acompañado con arroz y lechuga</div>
+                        </div>
+                        <div class="price">$70</div>
+                    </div>
+            </section>
+
+            <section class="card">
+                <h2>Combos</h2>
+                <p class="menu-list">Elige entre nuestros combos pensados para compartir.</p>
+
+                <div class="section" id="combos-list">
+                    <div class="combo">
+                        <img src="IMAGENES/Tostada siberiana.jpg" alt="Combo 1">
+                        <div class="meta">
+                            <div><strong>Combo Siberiano 1</strong> — 1 Tostada Especial + 1 Consomé + 1 Refresco</div>
+                        </div>
+                        <div class="price">$100</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Taco Siberiano.jpg" alt="Combo 2">
+                        <div class="meta">
+                            <div><strong>Combo Siberiano 2</strong> — 1 Tostada Sencilla + 1 Consomé + 1 Refresco</div>
+                        </div>
+                        <div class="price">$90</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Flautas.jpg" alt="Combo 3">
+                        <div class="meta">
+                            <div><strong>Combo Siberiano 3</strong> — 1 Taco Especial + 1 Consomé + 1 Refresco</div>
+                        </div>
+                        <div class="price">$80</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="../ProyectoLaSiberial/IMAGENES/Enchiladas.jpg" alt="combo 4">
+                        <div class="meta">
+                            <div><strong>Combo Siberiano 4</strong> — 1 Taco Sencillo + 1 Consomé + 1 Refresco</div>
+                        </div>
+                        <div class="price">$70</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="../ProyectoLaSiberial/IMAGENES/Enchiladas.jpg" alt="combo 4">
+                        <div class="meta">
+                            <div><strong>Combo Siberiano 5</strong> — 1 Tostada Especial Jr. + 1 Consomé + 1 Refresco</div>
+                        </div>
+                        <div class="price">$80</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="../ProyectoLaSiberial/IMAGENES/Enchiladas.jpg" alt="combo 4">
+                        <div class="meta">
+                            <div><strong>Combo Siberiano 6</strong> — 1 Tostada Sencilla Jr. + 1 Consomé + 1 Refresco</div>
+                        </div>
+                        <div class="price">$70</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Extras</h2>
+                <p class="menu-list">Complementos para tu platillo principal.</p>
+
+                <div class="section">
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Guacamole">
+                        <div class="meta">
+                            <div><strong>Guacamole</strong> — Porción individual</div>
+                        </div>
+                        <div class="price">$25</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Consomé Extra">
+                        <div class="meta">
+                            <div><strong>Consomé Extra</strong> — Porción individual</div>
+                        </div>
+                        <div class="price">$30</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Arroz">
+                        <div class="meta">
+                            <div><strong>Arroz Extra</strong> — Porción individual</div>
+                        </div>
+                        <div class="price">$20</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Bebidas</h2>
+                <p class="menu-list">Bebidas frías y calientes para acompañar tu pedido.</p>
+
+                <div class="section" id="bebidas-list">
+                    <div class="combo">
+                        <img src="IMAGENES/bebida.jpg" alt="Refresco">
+                        <div class="meta">
+                            <div><strong>Refresco</strong></div>
+                            <div class="menu-list">Lata o botella pequeña.</div>
+                        </div>
+                        <div class="price">$25</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/agua.jpg" alt="Agua">
+                        <div class="meta">
+                            <div><strong>Agua Mineral</strong></div>
+                            <div class="menu-list">500 ml.</div>
+                        </div>
+                        <div class="price">$20</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Antojitos</h2>
+                <p class="menu-list">Deliciosos antojitos mexicanos para disfrutar.</p>
+
+                <div class="section">
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Quesadillas">
+                        <div class="meta">
+                            <div><strong>Quesadillas</strong> — Con queso y guarnición</div>
+                        </div>
+                        <div class="price">$45</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Tostadas">
+                        <div class="meta">
+                            <div><strong>Tostadas de Pollo</strong> — Con frijoles y verdura</div>
+                        </div>
+                        <div class="price">$35</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Sopes">
+                        <div class="meta">
+                            <div><strong>Sopes</strong> — Con frijoles, pollo y verdura</div>
+                        </div>
+                        <div class="price">$40</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Postres</h2>
+                <p class="menu-list">Deliciosos postres para terminar tu comida.</p>
+
+                <div class="section">
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Flan">
+                        <div class="meta">
+                            <div><strong>Flan Napolitano</strong> — Porción individual</div>
+                        </div>
+                        <div class="price">$35</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Gelatina">
+                        <div class="meta">
+                            <div><strong>Gelatina Mosaico</strong> — Porción individual</div>
+                        </div>
+                        <div class="price">$25</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Arroz con Leche">
+                        <div class="meta">
+                            <div><strong>Arroz con Leche</strong> — Porción individual</div>
+                        </div>
+                        <div class="price">$30</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Promociones</h2>
+                <p class="menu-list">Aprovecha nuestras promociones especiales.</p>
+
+                <div class="section">
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Promo 1">
+                        <div class="meta">
+                            <div><strong>2x1 en Tacos Dorados</strong> — Todos los martes</div>
+                        </div>
+                        <div class="price">$90</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Promo 2">
+                        <div class="meta">
+                            <div><strong>Combo Familiar</strong> — 4 platillos + 4 bebidas</div>
+                        </div>
+                        <div class="price">$350</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Promo 3">
+                        <div class="meta">
+                            <div><strong>Postre Gratis</strong> — En consumo mayor a $200</div>
+                        </div>
+                        <div class="price">$0</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Para Compartir</h2>
+                <p class="menu-list">Platillos ideales para grupos y familias.</p>
+
+                <div class="section">
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Familiar 1">
+                        <div class="meta">
+                            <div><strong>Orden Familiar de Flautas</strong> — 15 piezas con guarnición</div>
+                        </div>
+                        <div class="price">$220</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Familiar 2">
+                        <div class="meta">
+                            <div><strong>Enchiladas para 4</strong> — 20 piezas con guarnición</div>
+                        </div>
+                        <div class="price">$280</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Familiar 3">
+                        <div class="meta">
+                            <div><strong>Mole Familiar</strong> — 4 porciones con arroz y tortillas</div>
+                        </div>
+                        <div class="price">$260</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Especiales del Día</h2>
+                <p class="menu-list">Platillos exclusivos que cambian diariamente.</p>
+
+                <div class="section">
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Especial 1">
+                        <div class="meta">
+                            <div><strong>Pozole</strong> — Solo jueves y domingos</div>
+                        </div>
+                        <div class="price">$85</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Especial 2">
+                        <div class="meta">
+                            <div><strong>Birria</strong> — Disponible sábados</div>
+                        </div>
+                        <div class="price">$90</div>
+                    </div>
+
+                    <div class="combo">
+                        <img src="IMAGENES/Enchiladas.jpg" alt="Especial 3">
+                        <div class="meta">
+                            <div><strong>Menudo</strong> — Solo domingos</div>
+                        </div>
+                        <div class="price">$80</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        © La Siberial — Recoger en tienda |
+    </footer>
+
+</body>
+</html>
