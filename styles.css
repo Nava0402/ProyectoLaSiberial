@@ -41,7 +41,7 @@
         .images-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:12px}
         .images-row img{width:100%; max-width:200px; border-radius:8px; object-fit:cover}
 
-        /* Combos y bebidas */
+    
         .section{margin-top:18px}
         .combo{display:flex; gap:12px; padding:10px; border-radius:8px; align-items:center}
         .combo img{width:84px; height:64px; object-fit:cover; border-radius:6px}
