@@ -12,43 +12,107 @@
             --muted:#7f8c8d;
             --bg:#f7f7f8;
             --card:#ffffff;
+            --shadow: 0 2px 4px rgba(0,0,0,0.08);
         }
+
         *{box-sizing: border-box}
         body{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; background:var(--bg); color:var(--dark);}
-        header{background:linear-gradient(90deg, #f39c12, #d35400); color:white; padding:20px 16px; display:flex; align-items:center; gap:16px; justify-content:space-between}
+
+        header{background:linear-gradient(90deg, #f39c12, var(--accent)); color:white; padding:20px 16px; display:flex; align-items:center; gap:16px; justify-content:space-between}
         header .left-side{display:flex; align-items:center; gap:16px}
-        header img.logo{height:64px; width:64px; object-fit:cover; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.15)}
+        header img.logo{height:64px; width:64px; object-fit:cover; border-radius:8px}
         header h1{font-size:1.6rem; margin:0}
-        header p{margin:0; opacity:0.95}
-        nav{display:flex; gap:24px}
-        nav a{color:white; text-decoration:none; padding:8px 16px; border-radius:6px; transition:background 0.2s}
-        nav a:hover{background:rgba(255,255,255,0.1)}
 
         main{max-width:1100px; margin:24px auto; padding:0 16px}
+        .grid{display:grid; grid-template-columns: repeat(3, 1fr); gap:18px}
+        .card{background:var(--card); padding:14px; border-radius:10px; box-shadow:0 6px 18px rgba(44,62,80,0.04)}
 
-        .grid{display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; grid-auto-flow:row}
-        .card{background:var(--card); padding:14px; border-radius:10px; box-shadow:0 6px 18px rgba(44,62,80,0.06)}
-        .card h2{margin:0 0 8px 0; font-size:1.1rem}
-        .menu-list{line-height:1.6; color:var(--muted)}
-
-        .images-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:12px}
-        .images-row img{width:100%; max-width:200px; border-radius:8px; object-fit:cover}
-
-        .section{margin-top:18px}
         .combo{display:flex; gap:12px; padding:10px; border-radius:8px; align-items:center}
         .combo img{width:84px; height:64px; object-fit:cover; border-radius:6px}
         .combo .meta{flex:1}
         .price{font-weight:700; color:var(--accent)}
-        
-        #bebidas-list .combo img{width:100px; height:100px; object-fit:contain; background-color: rgba(255,255,255,0.8); border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1);}
 
-        footer{max-width:1100px; margin:40px auto; padding:12px 16px; color:var(--muted); font-size:0.9rem}
-
-        @media (max-width:900px){
-            .grid{grid-template-columns: 1fr;}
-            header{flex-direction:column; align-items:flex-start}
-            .images-row img{max-width:48%}
+        /* Icono del carrito */
+        .cart-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            padding: 12px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            z-index: 1001;
         }
+
+        .cart-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: white;
+            color: var(--accent);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Panel del carrito */
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: -420px;
+            width: 400px;
+            height: 100vh;
+            background: var(--card);
+            box-shadow: -4px 0 16px rgba(0,0,0,0.08);
+            transition: right 0.28s ease;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-panel.active { right: 0; }
+
+        .cart-header { padding: 18px; display:flex; justify-content:space-between; align-items:center; background:var(--accent); color:white }
+        .cart-header h3{ margin:0; font-size:1.1rem }
+
+        .cart-content{ padding:16px; overflow-y:auto; flex:1 }
+        .cart-items{ margin-bottom:12px }
+        .cart-item{ display:flex; gap:10px; padding:10px 0; border-bottom:1px solid #efefef; align-items:center }
+        .cart-item-info{ flex:1 }
+
+        .cart-controls{ display:flex; gap:8px; align-items:center }
+        .quantity-btn{ background:var(--bg); border:0; width:28px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer }
+        .cart-quantity{ width:56px; text-align:center; border:1px solid #ddd; border-radius:6px; padding:6px }
+
+        .remove-btn{ background:none; border:0; color:var(--muted); cursor:pointer }
+        .remove-btn:hover{ color:#e74c3c }
+
+        .cart-summary { margin-top:12px }
+        .summary-box{ background:var(--bg); padding:12px; border-radius:8px; margin-bottom:10px }
+        .summary-title{ font-weight:700; margin-bottom:8px }
+        .summary-row{ display:flex; justify-content:space-between; padding:6px 0 }
+        .summary-row.total{ font-weight:800; color:var(--accent); border-top:2px solid var(--accent); padding-top:8px }
+
+        .cart-actions{ padding:12px }
+        .calc-btn{ width:100%; background:var(--accent); color:#fff; border:0; padding:10px; border-radius:8px; font-weight:700; cursor:pointer }
+        .calc-btn:hover{ opacity:0.95 }
+        .total-display{ display:flex; align-items:center; gap:8px; background:#fff; padding:8px; border-radius:6px; border:1px solid #eee; margin-top:10px }
+        .total-input{ margin-left:auto; border:0; background:transparent; font-weight:700; color:var(--accent) }
+
+        .cart-footer{ padding:12px; border-top:1px solid #f0f0f0 }
+        .checkout-btn{ width:100%; padding:12px; background:var(--accent); color:#fff; border:0; border-radius:8px; font-weight:700 }
+
+        @media (max-width:900px){ .grid{grid-template-columns:1fr} .cart-panel{ width:100%; right:-100% } .cart-panel.active{ right:0 } }
     </style>
 </head>
 <body>
@@ -66,6 +130,12 @@
             <a href="menú.html">Menú</a>
         </nav>
     </header>
+
+    <!-- Icono del carrito -->
+    <div class="cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+    </div>
 
     <main>
         <div class="grid">
@@ -525,9 +595,62 @@
         </div>
     </main>
 
+    <div class="cart-panel">
+        <div class="cart-header">
+            <h3>Carrito de Compras</h3>
+            <div class="cart-close"><i class="fas fa-times"></i></div>
+        </div>
+
+        <div class="cart-content">
+            <div class="cart-items">
+                <!-- Los items del carrito se agregarán aquí dinámicamente -->
+            </div>
+
+            <div class="cart-summary">
+                <div class="summary-box">
+                    <div class="summary-title">Resumen del Pedido</div>
+                    <div class="summary-items">
+                        <!-- Los items del resumen se agregarán aquí -->
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div class="summary-title">Detalles de Pago</div>
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span class="subtotal-amount">$0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Descuento:</span>
+                        <span class="discount-amount">-$0</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total Final:</span>
+                        <span class="total-amount">$0</span>
+                    </div>
+                </div>
+
+                <div class="cart-actions">
+                    <button class="calc-btn">Calcular Precio</button>
+                    <div class="total-display">
+                        <span>Total a Pagar:</span>
+                        <input type="text" class="total-input" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cart-footer">
+            <button class="checkout-btn">Realizar Pedido</button>
+        </div>
+    </div>
+
+    
+
     <footer>
         © La Siberial — Recoger en tienda |
     </footer>
 
+    <script src="script.js"></script>
 </body>
 </html>
