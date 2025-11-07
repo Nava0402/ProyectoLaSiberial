@@ -25,7 +25,7 @@
         document.querySelectorAll('.combo').forEach(combo => {
             const addButton = document.createElement('button');
             addButton.className = 'add-to-cart';
-            addButton.innerHTML = '<i class="fas fa-plus"></i> Agregar';
+            addButton.innerHTML = '<i class="fas fa-plus"></i>';
             combo.appendChild(addButton);
 
             addButton.addEventListener('click', () => {
