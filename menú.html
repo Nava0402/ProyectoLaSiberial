@@ -33,52 +33,59 @@
         .combo .meta{flex:1}
         .price{font-weight:700; color:var(--accent)}
 
+        #bebidas-list .combo img{width:100px; height:100px; object-fit:contain; background-color: rgba(255,255,255,0.8); border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1);}
         
-        .cart-icon {position: fixed; top: 20px; right: 20px; cursor: pointer; padding: 12px; background: var(--accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.12); z-index: 1001;}
+        nav{display:flex; gap:16px; align-items:center;}
+        nav a{color:white; text-decoration:none; padding:8px 16px; border-radius:6px; transition:background 0.2s;}
+        nav a:hover{background:rgba(255,255,255,0.1);}
+        
+        .cart-icon{position: relative; cursor: pointer; padding: 8px 16px; color: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: background 0.2s;}
 
-        .cart-icon:hover {background: #e67e22;}
+        .cart-icon:hover{background: rgba(255,255,255,0.1);}
 
-        .cart-count {position: absolute; top: -6px; right: -6px; background: white; color: var(--accent); border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;}
+        .cart-count{position: absolute; top: -2px; right: -2px; background: white; color: var(--accent); border-radius: 50%; min-width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; padding: 0 5px;}
 
-        .cart-panel {position: fixed; top: 0; right: -420px; width: 400px; height: 100vh; background: var(--card); box-shadow: -4px 0 16px rgba(0,0,0,0.08); transition: right 0.28s ease; z-index: 1000; display: flex; flex-direction: column;}
+        .cart-panel{position: fixed; top: 0; right: -420px; width: 400px; height: 100vh; background: var(--card); box-shadow: -4px 0 16px rgba(0,0,0,0.08); transition: right 0.28s ease; z-index: 1000; display: flex; flex-direction: column;}
 
         .add-to-cart{background:var(--accent); border:0; color:#fff; padding:8px 12px; border-radius:6px; cursor:pointer; font-size:0.9rem; display:flex; align-items:center; gap:6px;}
-        .add-to-cart:hover{ background:#e67e22 }
+        .add-to-cart:hover{background:#e67e22}
 
-        .cart-panel.active { right: 0; }
+        .cart-panel.active{right: 0;}
 
-        .cart-header { padding: 18px; display:flex; justify-content:space-between; align-items:center; background:var(--accent); color:white }
-        .cart-header h3{ margin:0; font-size:1.1rem }
+        .cart-header {padding: 18px; display:flex; justify-content:space-between; align-items:center; background:var(--accent); color:white}
+        .cart-header h3{margin:0; font-size:1.1rem}
+        .cart-close{cursor:pointer; padding:8px; border-radius:6px; transition:background 0.2s; display:flex; align-items:center; justify-content:center;}
+        .cart-close:hover{background:rgba(255,255,255,0.15);}
 
-        .cart-content{ padding:16px; overflow-y:auto; flex:1 }
-        .cart-items{ margin-bottom:12px }
-        .cart-item{ display:flex; gap:10px; padding:10px 0; border-bottom:1px solid #efefef; align-items:center }
-        .cart-item-info{ flex:1 }
+        .cart-content{padding:16px; overflow-y:auto; flex:1}
+        .cart-items{margin-bottom:12px}
+        .cart-item{display:flex; gap:10px; padding:10px 0; border-bottom:1px solid #efefef; align-items:center}
+        .cart-item-info{flex:1}
 
-        .cart-controls{ display:flex; gap:8px; align-items:center }
-        .quantity-btn{ background:var(--bg); border:0; width:28px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer }
-        .cart-quantity{ width:56px; text-align:center; border:1px solid #ddd; border-radius:6px; padding:6px }
+        .cart-controls{display:flex; gap:8px; align-items:center}
+        .quantity-btn{background:var(--bg); border:0; width:28px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer}
+        .cart-quantity{width:56px; text-align:center; border:1px solid #ddd; border-radius:6px; padding:6px}
 
-        .remove-btn{ background:none; border:0; color:var(--muted); cursor:pointer }
-        .remove-btn:hover{ color:#e74c3c }
+        .remove-btn{background:none; border:0; color:var(--muted); cursor:pointer}
+        .remove-btn:hover{color:#e74c3c}
 
-        .cart-summary { margin-top:12px }
-        .summary-box{ background:var(--bg); padding:12px; border-radius:8px; margin-bottom:10px }
-        .summary-title{ font-weight:700; margin-bottom:8px }
-        .summary-row{ display:flex; justify-content:space-between; padding:6px 0 }
-        .summary-row.total{ font-weight:800; color:var(--accent); border-top:2px solid var(--accent); padding-top:8px }
+        .cart-summary {margin-top:12px}
+        .summary-box{background:var(--bg); padding:12px; border-radius:8px; margin-bottom:10px}
+        .summary-title{font-weight:700; margin-bottom:8px}
+        .summary-row{display:flex; justify-content:space-between; padding:6px 0}
+        .summary-row.total{font-weight:800; color:var(--accent); border-top:2px solid var(--accent); padding-top:8px}
 
-        .cart-actions{ padding:12px; }
-        .calc-btn{ width:100%; background:var(--accent); color:#fff; border:0; padding:10px; border-radius:8px; font-weight:700; cursor:pointer }
-        .calc-btn:hover{ opacity:0.95 }
-        .total-display{ display:flex; align-items:center; gap:8px; background:#fff; padding:8px; border-radius:6px; border:1px solid #eee; margin-top:10px }
-        .total-input{ margin-left:auto; border:0; background:transparent; font-weight:700; color:var(--accent) }
+        .cart-actions{padding:12px;}
+        .calc-btn{width:100%; background:var(--accent); color:#fff; border:0; padding:10px; border-radius:8px; font-weight:700; cursor:pointer}
+        .calc-btn:hover{opacity:0.95}
+        .total-display{display:flex; align-items:center; gap:8px; background:#fff; padding:8px; border-radius:6px; border:1px solid #eee; margin-top:10px}
+        .total-input{margin-left:auto; border:0; background:transparent; font-weight:700; color:var(--accent)}
 
-        .cart-footer{ padding:12px; border-top:1px solid #f0f0f0 }
-        .checkout-btn{ width:100%; padding:12px; background:var(--accent); color:#fff; border:0; border-radius:8px; font-weight:700 }
-        .checkout-btn:hover{ opacity:0.95; cursor: pointer;}
+        .cart-footer{padding:12px; border-top:1px solid #f0f0f0}
+        .checkout-btn{width:100%; padding:12px; background:var(--accent); color:#fff; border:0; border-radius:8px; font-weight:700}
+        .checkout-btn:hover{opacity:0.95; cursor: pointer;}
 
-        @media (max-width:900px){ .grid{grid-template-columns:1fr} .cart-panel{ width:100%; right:-100% } .cart-panel.active{ right:0 } }
+        @media (max-width:900px){.grid{grid-template-columns:1fr} .cart-panel{width:100%; right:-100%} .cart-panel.active{right:0}}
     </style>
 </head>
 <body>
@@ -94,14 +101,12 @@
         <nav>
             <a href="index.html">Inicio</a>
             <a href="menú.html">Menú</a>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div>
         </nav>
     </header>
-
-
-    <div class="cart-icon">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-count">0</span>
-    </div>
 
     <main>
         <div class="grid">
@@ -246,8 +251,6 @@
                         </div>
                         <div class="price">$50</div>
                     </div>
-
-                <br>
         
                     <div class="combo">
                         <img src="../ProyectoLaSiberial/IMAGENES/Enchiladas.jpg" alt="combo 4">
