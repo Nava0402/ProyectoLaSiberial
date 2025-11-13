@@ -35,7 +35,7 @@
         .location-card:hover{background:#e9ecef}
         .location-card h3{margin:0 0 4px; font-size:1rem}
         .location-card p{margin:0; font-size:0.9rem; color:#666}
-        .map-frame{width:100%; height:400px; border:none; border-radius:6px}
+        .map-frame, .map-frame-first, .map-frame-second{width:100%; height:400px; border:none; border-radius:6px}
 
         @media (max-width:900px){
             .hero .inner{flex-direction:column; text-align:center}
@@ -78,15 +78,35 @@
         <h2>Encuentra tu sucursal más cercana</h2>
         <div class="map-container">
             <div class="locations">
-                <div class="location-card" onclick="panToLocation(25.800322, -100.314713)">
+                <div class="location-card" onclick="panToLocationFirst(25.8003005,-100.3173744)">
                     <h3>La Siberial</h3>
-                    <p><i class="fas fa-map-marker-alt"></i>Monterrey, Nuevo León</p>
-                    <p><i class="fas fa-clock"></i>11:00 - 20:00</p>
+                    <p><i class="fas fa-map-marker-alt"></i>Escobedo, Nuevo León</p>
+                    <p><i class="fas fa-clock"></i>11:00 - 19:00</p>
                 </div>
             </div>
             <iframe 
-                class="map-frame"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1800!2d-100.314713!3d25.800322!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDQ4JzAxLjIiTiAxMDDCsDE4JzUzLjAiVw!5e0!3m2!1ses!2smx!4v1699390431979!5m2!1ses!2smx"
+                class="map-frame-first"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3592.099221517135!2d-100.31737442542371!3d25.800300477327635!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86629394e0b02e83%3A0xa931c73a583d3aad!2sLa%20Siberial%20Escobedo!5e0!3m2!1ses-419!2smx!4v1763006965730!5m2!1ses-419!2smx"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </section>
+
+    <section class="map-section">
+        <h2>Otra sucursal disponible</h2>
+        <div class="map-container">
+            <div class="locations">
+                <div class="location-card" onclick="panToLocationSecond(25.7544949,-100.2981505)">
+                    <h3>La Siberial</h3>
+                    <p><i class="fas fa-map-marker-alt"></i>San Nicolás, Nuevo León</p>
+                    <p><i class="fas fa-clock"></i>11:00 - 19:00</p>
+                </div>
+            </div>
+            <iframe 
+                class="map-frame-second"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3593.4863431236454!2d-100.29815053286089!3d25.754494862523845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8662948f53cfffc1%3A0xd34562d044b03807!2sLa%20Siberial!5e0!3m2!1ses-419!2smx!4v1763006226239!5m2!1ses-419!2smx"
                 allowfullscreen=""
                 loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade">
@@ -95,10 +115,14 @@
     </section>
 
     <script>
-        function panToLocation(lat, lng) {
-            
-            const iframe = document.querySelector('.map-frame');
-            iframe.src = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.761237050211!2d${lng}!3d${lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDI1JzU3LjQiTiA5OcKwMDcnNTkuNiJX!5e0!3m2!1ses!2smx!4v1625761234567!5m2!1ses!2smx`;
+        function panToLocationFirst(lat, lng) {
+            const iframe = document.querySelector('.map-frame-first');
+            iframe.src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3592.099221517135!2d-100.31737442542371!3d25.800300477327635!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86629394e0b02e83%3A0xa931c73a583d3aad!2sLa%20Siberial%20Escobedo!5e0!3m2!1ses-419!2smx!4v1763006965730!5m2!1ses-419!2smx";
+        }
+        
+        function panToLocationSecond(lat, lng) {
+            const iframe = document.querySelector('.map-frame-second');
+            iframe.src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3593.4864879118786!2d-100.30072102542559!3d25.7544900773565!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8662948f53cfffc1%3A0xd34562d044b03807!2sLa%20Siberial!5e0!3m2!1ses-419!2smx!4v1763007089975!5m2!1ses-419!2smx";
         }
     </script>
 </body>
