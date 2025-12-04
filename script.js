@@ -12,6 +12,7 @@
         const summaryItems = document.querySelector('.summary-items');
         const subtotalAmount = document.querySelector('.subtotal-amount');
         const discountAmount = document.querySelector('.discount-amount');
+        const ivaAmount = document.querySelector('.iva-amount');
         const totalAmount = document.querySelector('.total-amount');
         const cartCount = document.querySelector('.cart-count');
         const checkoutBtn = document.querySelector('.checkout-btn');
@@ -123,11 +124,17 @@
 
             // Calcular descuento (10% en compras mayores a $200)
             const discount = subtotal >= 200 ? Math.round(subtotal * 0.1) : 0;
+            const subtotalWithDiscount = subtotal - discount;
+            
+            // Calcular IVA (16%)
+            const iva = Math.round(subtotalWithDiscount * 0.16);
+            const total = subtotalWithDiscount + iva;
             
             // Actualizar totales
             subtotalAmount.textContent = `$${subtotal}`;
             discountAmount.textContent = `-$${discount}`;
-            totalAmount.textContent = `$${subtotal - discount}`;
+            ivaAmount.textContent = `$${iva}`;
+            totalAmount.textContent = `$${total}`;
             cartCount.textContent = itemCount;
         }
 
@@ -148,12 +155,134 @@
                 return;
             }
             
-            const total = parseInt(totalAmount.textContent.replace('$', ''));
-            alert(`¡Gracias por tu pedido!\nTotal a pagar: $${total}\nTe contactaremos pronto para confirmar tu pedido.`);
-            cart = [];
-            updateCart();
-            totalInput.value = '';
+            // Obtener elementos del modal
+            const orderModal = document.getElementById('orderModal');
+            const orderForm = document.getElementById('orderForm');
+            const orderConfirmation = document.getElementById('orderConfirmation');
+            const orderItemsForm = document.getElementById('orderItemsForm');
+            const orderTotalForm = document.getElementById('orderTotalForm');
+            const customerForm = document.getElementById('customerForm');
+            const cancelOrderBtn = document.getElementById('cancelOrder');
+            
+            // Mostrar formulario, ocultar confirmación
+            orderForm.style.display = 'block';
+            orderConfirmation.style.display = 'none';
+            
+            // Llenar resumen del pedido en el formulario
+            orderItemsForm.innerHTML = '';
+            cart.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'order-item';
+                itemDiv.innerHTML = `
+                    <span>${item.name} x${item.quantity}</span>
+                    <span>$${item.price * item.quantity}</span>
+                `;
+                orderItemsForm.appendChild(itemDiv);
+            });
+            
+            // Mostrar total
+            const total = totalAmount.textContent;
+            orderTotalForm.textContent = total;
+            
+            // Mostrar modal
+            orderModal.classList.add('active');
             cartPanel.classList.remove('active');
+            
+            // Manejar cancelación
+            cancelOrderBtn.onclick = () => {
+                orderModal.classList.remove('active');
+                customerForm.reset();
+            };
+            
+            // Manejar envío del formulario
+            customerForm.onsubmit = (e) => {
+                e.preventDefault();
+                
+                // Obtener valores del formulario
+                const name = document.getElementById('customerName').value;
+                const phone = document.getElementById('customerPhone').value;
+                const email = document.getElementById('customerEmail').value;
+                const pickupLocation = document.getElementById('pickupLocation').value;
+                const comments = document.getElementById('comments').value;
+                
+                // Llenar información de confirmación
+                document.getElementById('confirmName').textContent = name;
+                document.getElementById('confirmPhone').textContent = phone;
+                document.getElementById('confirmLocation').textContent = pickupLocation;
+                
+                // Llenar resumen del pedido en confirmación
+                const orderItemsConfirm = document.getElementById('orderItemsConfirm');
+                orderItemsConfirm.innerHTML = '';
+                cart.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'order-item';
+                    itemDiv.innerHTML = `
+                        <span>${item.name} x${item.quantity}</span>
+                        <span>$${item.price * item.quantity}</span>
+                    `;
+                    orderItemsConfirm.appendChild(itemDiv);
+                });
+                
+                document.getElementById('orderTotalConfirm').textContent = total;
+                
+                // Crear mensaje para WhatsApp
+                let mensaje = `*NUEVO PEDIDO - La Siberial*%0A%0A`;
+                mensaje += `*Datos del cliente:*%0A`;
+                mensaje += `Nombre: ${name}%0A`;
+                mensaje += `Teléfono: ${phone}%0A`;
+                if (email) mensaje += `Email: ${email}%0A`;
+                mensaje += `Sucursal: ${pickupLocation}%0A`;
+                if (comments) mensaje += `Comentarios: ${comments}%0A`;
+                mensaje += `%0A*Detalles del pedido:*%0A`;
+                
+                cart.forEach(item => {
+                    mensaje += `${item.name} x${item.quantity} - $${item.price * item.quantity}%0A`;
+                });
+                
+                mensaje += `%0A*Total a pagar: ${total}*`;
+                
+                // Número de WhatsApp del restaurante
+                const whatsappNumber = '528125054847';
+                const whatsappURL = `https://wa.me/${whatsappNumber}?text=${mensaje}`;
+                
+                // Mostrar confirmación, ocultar formulario
+                orderForm.style.display = 'none';
+                orderConfirmation.style.display = 'block';
+                
+                // Hacer scroll al inicio del modal
+                const orderContent = document.querySelector('.order-content');
+                orderContent.scrollTop = 0;
+                
+                // Abrir WhatsApp
+                window.open(whatsappURL, '_blank');
+                
+                // Guardar información del pedido (opcional)
+                console.log('Pedido confirmado:', {
+                    cliente: { name, phone, email, pickupLocation, comments },
+                    pedido: cart,
+                    total: total
+                });
+            };
+            
+            // Botón de finalizar
+            document.getElementById('finishOrder').onclick = () => {
+                orderModal.classList.remove('active');
+                cart = [];
+                updateCart();
+                totalInput.value = '';
+                customerForm.reset();
+            };
+            
+            // Cerrar modal al hacer click fuera (solo si está en confirmación)
+            orderModal.onclick = (e) => {
+                if (e.target === orderModal && orderConfirmation.style.display === 'block') {
+                    orderModal.classList.remove('active');
+                    cart = [];
+                    updateCart();
+                    totalInput.value = '';
+                    customerForm.reset();
+                }
+            };
         }
     });
 })();

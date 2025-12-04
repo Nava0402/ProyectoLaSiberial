@@ -48,9 +48,11 @@
         .review-form{display:flex; flex-direction:column; gap:8px; margin-top:12px}
         .review-form input, .review-form select, .review-form textarea{width:100%; padding:8px; border:1px solid #ddd; border-radius:6px}
         .review-form button{align-self:flex-start; padding:10px 14px; background:#d35400; color:#fff; border:none; border-radius:6px; cursor:pointer}
-        .review-item{border-bottom:1px solid #f0f0f0; padding:10px 0}
+        .review-item{border-bottom:1px solid #f0f0f0; padding:10px 0; position:relative;}
         .review-item h4{margin:0 0 4px}
         .review-item .rating{color:#f1c40f}
+        .delete-review-btn{position:absolute; top:10px; right:0; background:#e74c3c; color:#fff; border:none; padding:4px 6px; border-radius:3px; cursor:pointer; font-size:12px; line-height:1;}
+        .delete-review-btn:hover{background:#c0392b;}
 
         .about-section{max-width:1100px; margin:24px auto; padding:0 16px}
         .about-box{background:#fff; padding:16px; border-radius:8px}
@@ -73,8 +75,8 @@
         .delivery-info h3{font-size:1.8rem; margin:10px 0; font-weight:600}
         .delivery-description{font-size:1.1rem; margin:15px 0; opacity:0.95}
         .phone-number{margin:25px 0}
-        .phone-number p{color:white; text-decoration:none; background:rgba(255,255,255,0.15); padding:15px 30px; border-radius:50px; font-size:1.4rem; font-weight:700; display:inline-block; transition:all 0.3s ease; border:2px solid rgba(255,255,255,0.3)}
-        .phone-number p:hover{background:rgba(255,255,255,0.25); transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.2)}
+        .phone-number a{color:white; text-decoration:none; background:rgba(255,255,255,0.15); padding:15px 30px; border-radius:50px; font-size:1.4rem; font-weight:700; display:inline-block; transition:all 0.3s ease; border:2px solid rgba(255,255,255,0.3)}
+        .phone-number a:hover{background:rgba(255,255,255,0.25); transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.2)}
         .phone-number i{margin-right:10px}
         .delivery-note{font-size:0.9rem; opacity:0.8; margin-top:20px}
 
@@ -191,12 +193,12 @@
                 <div class="delivery-info">
                     <i class="fas fa-phone-alt delivery-icon"></i>
                     <h3>Pedidos a domicilio</h3>
-                    <p class="delivery-description">Llámanos y te llevamos tu pedido directamente a tu puerta.</p>
+                    <p class="delivery-description">Contáctanos por WhatsApp y te llevamos tu pedido directamente a tu puerta.</p>
                     <div class="phone-number">
-                        <p href="tel:+528125054847">
-                            <i class="fas fa-phone"></i>
+                        <a href="https://wa.me/528125054847" target="_blank" style="color:inherit; text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
+                            <i class="fab fa-whatsapp"></i>
                             (+52) 81 2505 4847
-                        </p>
+                        </a>
                     </div>
                     <p class="delivery-note">Tiempo de entrega: 20-35 minutos</p>
                 </div>
@@ -241,18 +243,33 @@
                     return;
                 }
 
-                items.slice().reverse().forEach(r => {
+                items.slice().reverse().forEach((r, idx) => {
+                    const originalIndex = items.length - 1 - idx;
                     const div = document.createElement('div');
                     div.className = 'review-item';
                     div.innerHTML = `
                         <h4>${escapeHtml(r.name)} <span class="rating">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span></h4>
                         <p style="margin:6px 0 0">${escapeHtml(r.comment)}</p>
+                        <button class="delete-review-btn" data-index="${originalIndex}" title="Eliminar reseña"><i class="fas fa-times"></i></button>
                     `;
                     reviewsList.appendChild(div);
+                    
+                    // Agregar event listener al botón
+                    const deleteBtn = div.querySelector('.delete-review-btn');
+                    deleteBtn.addEventListener('click', () => deleteReview(originalIndex));
                 });
             }
 
             function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+            function deleteReview(index) {
+                if (confirm('¿Estás seguro de que quieres eliminar esta reseña?')) {
+                    const arr = loadReviews();
+                    arr.splice(index, 1);
+                    saveReviews(arr);
+                    renderReviews();
+                }
+            }
 
             reviewForm.addEventListener('submit', (e) => {
                 e.preventDefault();

@@ -86,8 +86,69 @@
         .cart-footer{padding:12px; border-top:1px solid #f0f0f0}
         .checkout-btn{width:100%; padding:12px; background:var(--accent); color:#fff; border:0; border-radius:8px; font-weight:700}
         .checkout-btn:hover{opacity:0.95; cursor: pointer;}
+        
+        .order-modal{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:2000; justify-content:center; align-items:center; overflow-y:auto; padding:20px 0;}
+        .order-modal.active{display:flex;}
+        .order-content{background:#fff; border-radius:16px; padding:24px; max-width:600px; width:90%; max-height:90vh; overflow-y:auto; box-shadow:0 8px 32px rgba(0,0,0,0.2); animation:slideIn 0.3s ease; margin:auto;}
+        @keyframes slideIn{from{transform:translateY(-50px); opacity:0;} to{transform:translateY(0); opacity:1;}}
+        .order-content h2{color:var(--accent); margin:0 0 12px; font-size:24px; text-align:center;}
+        .order-content p{font-size:14px;}
+        .order-content .success-icon{text-align:center; font-size:48px; color:#27ae60; margin-bottom:12px;}
+        .order-summary{background:var(--bg); padding:12px; border-radius:8px; margin:12px 0;}
+        .order-summary h3{margin:0 0 8px; font-size:16px; color:var(--dark);}
+        .order-summary .order-item{display:flex; justify-content:space-between; margin:6px 0; font-size:13px;}
+        .order-summary .order-total{border-top:2px solid var(--muted); padding-top:8px; margin-top:8px; font-weight:700; font-size:16px;}
+        .order-steps{margin:16px 0;}
+        .order-steps h3{margin:0 0 12px; font-size:18px; color:var(--dark);}
+        .step-item{display:flex; align-items:flex-start; margin:10px 0; padding:10px; background:var(--bg); border-radius:8px; border-left:4px solid var(--accent);}
+        .step-number{background:var(--accent); color:#fff; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; margin-right:10px; flex-shrink:0; font-size:14px;}
+        .step-text{flex:1;}
+        .step-text strong{display:block; margin-bottom:3px; color:var(--dark); font-size:14px;}
+        .step-text span{font-size:13px; color:var(--muted);}
+        .modal-actions{display:flex; gap:10px; margin-top:16px;}
+        .modal-btn{flex:1; padding:10px 20px; border:0; border-radius:8px; font-weight:700; cursor:pointer; transition:all 0.3s; font-size:14px;}
+        .modal-btn.primary{background:var(--accent); color:#fff;}
+        .modal-btn.primary:hover{opacity:0.9;}
+        .modal-btn.secondary{background:var(--muted); color:#fff;}
+        .modal-btn.secondary:hover{opacity:0.9;}
+        
+        .form-group{margin-bottom:12px;}
+        .form-group label{display:block; margin-bottom:5px; font-weight:600; color:var(--dark); font-size:13px;}
+        .form-group input, .form-group select, .form-group textarea{width:100%; padding:8px 10px; border:2px solid #ddd; border-radius:8px; font-size:13px; font-family:inherit; transition:border-color 0.3s; box-sizing:border-box;}
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus{outline:none; border-color:var(--accent);}
+        .form-group textarea{resize:vertical;}
+        .customer-info{background:var(--bg); padding:12px; border-radius:8px; margin:12px 0;}
+        .customer-info h3{margin:0 0 10px; font-size:16px; color:var(--dark);}
+        .info-item{margin:6px 0; font-size:13px;}
+        .info-item strong{color:var(--dark); display:inline-block; min-width:100px;}
 
-        @media (max-width:900px){.grid{grid-template-columns:1fr} .cart-panel{width:100%; right:-100%} .cart-panel.active{right:0}}
+        @media (max-width:900px){
+            .grid{grid-template-columns:1fr} 
+            .cart-panel{width:100%; right:-100%} 
+            .cart-panel.active{right:0}
+            .order-content{width:95%; padding:16px; max-height:85vh;}
+            .order-content h2{font-size:20px;}
+            .order-content .success-icon{font-size:40px; margin-bottom:8px;}
+            .order-summary{padding:10px; margin:10px 0;}
+            .order-summary h3{font-size:15px;}
+            .order-summary .order-item{font-size:12px;}
+            .order-summary .order-total{font-size:15px;}
+            .order-steps h3{font-size:16px;}
+            .step-item{padding:8px; margin:8px 0;}
+            .step-number{width:22px; height:22px; font-size:13px; margin-right:8px;}
+            .step-text strong{font-size:13px;}
+            .step-text span{font-size:12px;}
+            .modal-actions{flex-direction:column; gap:8px; margin-top:12px;}
+            .modal-btn{width:100%; padding:10px;}
+            .form-group{margin-bottom:10px;}
+            .form-group label{font-size:12px;}
+            .form-group input, .form-group select, .form-group textarea{padding:8px; font-size:13px;}
+            .customer-info{padding:10px; margin:10px 0;}
+            .customer-info h3{font-size:15px;}
+            .info-item{font-size:12px; margin:5px 0;}
+            .info-item strong{min-width:80px;}
+            .order-modal{padding:10px 0;}
+        }
     </style>
 </head>
 <body>
@@ -564,6 +625,10 @@
                         <span>Descuento:</span>
                         <span class="discount-amount">-$0</span>
                     </div>
+                    <div class="summary-row">
+                        <span>IVA (16%):</span>
+                        <span class="iva-amount">$0</span>
+                    </div>
                     <div class="summary-row total">
                         <span>Total Final:</span>
                         <span class="total-amount">$0</span>
@@ -585,7 +650,120 @@
         </div>
     </div>
 
-    
+    <div class="order-modal" id="orderModal">
+        <div class="order-content">
+            <div id="orderForm" class="form-section">
+                <h2>Completa tu información</h2>
+                <p style="color:var(--muted); margin-bottom:24px; text-align:center;">Por favor llena los siguientes datos para procesar tu pedido</p>
+                
+                <div class="order-summary" id="orderSummaryForm">
+                    <h3>Tu pedido:</h3>
+                    <div id="orderItemsForm"></div>
+                    <div class="order-item order-total">
+                        <span>Total a pagar:</span>
+                        <span id="orderTotalForm">$0</span>
+                    </div>
+                </div>
+                
+                <form id="customerForm">
+                    <div class="form-group">
+                        <label for="customerName">Nombre completo *</label>
+                        <input type="text" id="customerName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerPhone">Teléfono *</label>
+                        <input type="tel" id="customerPhone" required placeholder="Ej: 1234567890" pattern="[0-9]{10}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerEmail">Correo electrónico (opcional)</label>
+                        <input type="email" id="customerEmail" placeholder="Ej: correo@ejemplo.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pickupLocation">Sucursal para recoger *</label>
+                        <select id="pickupLocation" required>
+                            <option value="">Selecciona una sucursal</option>
+                            <option value="Sucursal Centro">Sucursal Centro</option>
+                            <option value="Sucursal Norte">Sucursal Norte</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="comments">Comentarios adicionales (opcional)</label>
+                        <textarea id="comments" rows="3" placeholder="Ej: Sin cebolla, extra salsa..."></textarea>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="modal-btn secondary" id="cancelOrder">Cancelar</button>
+                        <button type="submit" class="modal-btn primary" id="confirmOrder">Confirmar Pedido</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="orderConfirmation" class="form-section" style="display:none;">
+                <div class="success-icon">✓</div>
+                <h2>¡Pedido Confirmado!</h2>
+                
+                <div class="customer-info">
+                    <h3>Información de entrega:</h3>
+                    <div class="info-item"><strong>Nombre:</strong> <span id="confirmName"></span></div>
+                    <div class="info-item"><strong>Teléfono:</strong> <span id="confirmPhone"></span></div>
+                    <div class="info-item"><strong>Sucursal:</strong> <span id="confirmLocation"></span></div>
+                </div>
+                
+                <div class="order-summary">
+                    <h3>Resumen de tu pedido:</h3>
+                    <div id="orderItemsConfirm"></div>
+                    <div class="order-item order-total">
+                        <span>Total a pagar:</span>
+                        <span id="orderTotalConfirm">$0</span>
+                    </div>
+                </div>
+                
+                <div class="order-steps">
+                    <h3>Pasos para recoger tu orden:</h3>
+                    
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-text">
+                            <strong>Mensaje enviado por WhatsApp</strong>
+                            <span>Tu pedido ha sido enviado directamente por WhatsApp. Recibirás confirmación en unos minutos.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-text">
+                            <strong>Preparación</strong>
+                            <span>Tu orden será preparada en aproximadamente 20-35 minutos.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-text">
+                            <strong>Recoger en tienda</strong>
+                            <span>Acude a la sucursal seleccionada cuando esté listo tu pedido.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div class="step-text">
+                            <strong>Pago</strong>
+                            <span>Paga al recoger tu orden en efectivo o con tarjeta.</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="modal-btn primary" id="finishOrder" style="width:100%;">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer>
         © La Siberial — Recoger en tienda |
