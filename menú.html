@@ -41,6 +41,10 @@
         nav a{color:white; text-decoration:none; padding:8px 16px; border-radius:6px; transition:background 0.2s;}
         nav a:hover{background:rgba(255,255,255,0.1);}
         
+        .profile-icon{cursor:pointer; padding:8px 16px; color:white; border-radius:6px; display:flex; align-items:center; justify-content:center; transition:all 0.2s; font-size:20px;}
+        .profile-icon:hover{background:rgba(255,255,255,0.1);}
+        .profile-icon.filled{color:#ffdb58 !important;}
+        
         .cart-icon{position: relative; cursor: pointer; padding: 8px 16px; color: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: background 0.2s;}
 
         .cart-icon:hover{background: rgba(255,255,255,0.1);}
@@ -115,6 +119,7 @@
         .form-group{margin-bottom:12px;}
         .form-group label{display:block; margin-bottom:5px; font-weight:600; color:var(--dark); font-size:13px;}
         .form-group input, .form-group select, .form-group textarea{width:100%; padding:8px 10px; border:2px solid #ddd; border-radius:8px; font-size:13px; font-family:inherit; transition:border-color 0.3s; box-sizing:border-box;}
+        .form-group select{cursor:pointer;}
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus{outline:none; border-color:var(--accent);}
         .form-group textarea{resize:vertical;}
         .customer-info{background:var(--bg); padding:12px; border-radius:8px; margin:12px 0;}
@@ -164,6 +169,9 @@
         <nav>
             <a href="index.html">Inicio</a>
             <a href="menú.html">Menú</a>
+            <div class="profile-icon" id="profileIcon" title="Mi perfil">
+                <i class="fas fa-user"></i>
+            </div>
             <div class="cart-icon">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count">0</span>
@@ -650,6 +658,46 @@
         </div>
     </div>
 
+    <div class="order-modal" id="profileModal">
+        <div class="order-content" style="max-width:500px;">
+            <h2>Mi Perfil</h2>
+            <p style="color:var(--muted); margin-bottom:20px; text-align:center;">Guarda tus datos para hacer pedidos más rápido</p>
+            
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="profileName">Nombre completo</label>
+                    <input type="text" id="profileName">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profilePhone">Teléfono</label>
+                    <input type="tel" id="profilePhone" pattern="[0-9]{10}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profileEmail">Correo electrónico (opcional)</label>
+                    <input type="email" id="profileEmail">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profileLocation">Sucursal preferida</label>
+                    <select id="profileLocation">
+                        <option value="">Selecciona una sucursal</option>
+                        <option value="Sucursal Centro">Sucursal Escobedo</option>
+                        <option value="Sucursal Norte">Sucursal San Nicolás</option>
+                    </select>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="modal-btn secondary" id="closeProfile">Cancelar</button>
+                    <button type="submit" class="modal-btn primary">Guardar Datos</button>
+                </div>
+            </form>
+            
+            <button type="button" class="modal-btn secondary" id="clearProfile" style="width:100%; margin-top:12px;">Borrar Datos Guardados</button>
+        </div>
+    </div>
+
     <div class="order-modal" id="orderModal">
         <div class="order-content">
             <div id="orderForm" class="form-section">
@@ -673,26 +721,26 @@
                     
                     <div class="form-group">
                         <label for="customerPhone">Teléfono *</label>
-                        <input type="tel" id="customerPhone" required placeholder="Ej: 1234567890" pattern="[0-9]{10}">
+                        <input type="tel" id="customerPhone" required pattern="[0-9]{10}">
                     </div>
                     
                     <div class="form-group">
                         <label for="customerEmail">Correo electrónico (opcional)</label>
-                        <input type="email" id="customerEmail" placeholder="Ej: correo@ejemplo.com">
+                        <input type="email" id="customerEmail">
                     </div>
                     
                     <div class="form-group">
                         <label for="pickupLocation">Sucursal para recoger *</label>
                         <select id="pickupLocation" required>
                             <option value="">Selecciona una sucursal</option>
-                            <option value="Sucursal Centro">Sucursal Centro</option>
-                            <option value="Sucursal Norte">Sucursal Norte</option>
+                            <option value="Sucursal Centro">Sucursal Escobedo</option>
+                            <option value="Sucursal Norte">Sucursal San Nicolás</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
                         <label for="comments">Comentarios adicionales (opcional)</label>
-                        <textarea id="comments" rows="3" placeholder="Ej: Sin cebolla, extra salsa..."></textarea>
+                        <textarea id="comments" rows="3"></textarea>
                     </div>
                     
                     <div class="modal-actions">

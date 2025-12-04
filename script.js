@@ -1,9 +1,22 @@
 (() => {
     // Estado del carrito
+    const cartKey = 'ls_shopping_cart';
     let cart = [];
+    
+    // Funciones para persistencia del carrito
+    function saveCart() {
+        localStorage.setItem(cartKey, JSON.stringify(cart));
+    }
+    
+    function loadCart() {
+        const saved = localStorage.getItem(cartKey);
+        return saved ? JSON.parse(saved) : [];
+    }
 
     // Inicialización cuando el documento esté listo
     document.addEventListener('DOMContentLoaded', function() {
+        // Cargar carrito guardado
+        cart = loadCart();
         // Elementos del DOM
         const cartIcon = document.querySelector('.cart-icon');
         const cartPanel = document.querySelector('.cart-panel');
@@ -21,6 +34,9 @@
         cartIcon.addEventListener('click', () => cartPanel.classList.add('active'));
         cartClose.addEventListener('click', () => cartPanel.classList.remove('active'));
         checkoutBtn.addEventListener('click', handleCheckout);
+        
+        // Renderizar carrito guardado al cargar la página
+        updateCart();
 
         // Agregar botones a los productos
         document.querySelectorAll('.combo').forEach(combo => {
@@ -49,6 +65,7 @@
                 });
             }
             
+            saveCart();
             updateCart();
             cartPanel.classList.add('active');
         }
@@ -93,12 +110,14 @@
                 minusBtn.addEventListener('click', () => {
                     if (item.quantity > 1) {
                         item.quantity--;
+                        saveCart();
                         updateCart();
                     }
                 });
 
                 plusBtn.addEventListener('click', () => {
                     item.quantity++;
+                    saveCart();
                     updateCart();
                 });
 
@@ -106,12 +125,14 @@
                     const newQuantity = parseInt(e.target.value);
                     if (newQuantity >= 1) {
                         item.quantity = newQuantity;
+                        saveCart();
                         updateCart();
                     }
                 });
 
                 removeBtn.addEventListener('click', () => {
                     cart = cart.filter(i => i !== item);
+                    saveCart();
                     updateCart();
                 });
 
@@ -168,6 +189,17 @@
             orderForm.style.display = 'block';
             orderConfirmation.style.display = 'none';
             
+            // Cargar datos del perfil si existen
+            const profileKey = 'ls_user_profile';
+            const savedProfile = localStorage.getItem(profileKey);
+            if (savedProfile) {
+                const profile = JSON.parse(savedProfile);
+                if (profile.name) document.getElementById('customerName').value = profile.name;
+                if (profile.phone) document.getElementById('customerPhone').value = profile.phone;
+                if (profile.email) document.getElementById('customerEmail').value = profile.email;
+                if (profile.location) document.getElementById('pickupLocation').value = profile.location;
+            }
+            
             // Llenar resumen del pedido en el formulario
             orderItemsForm.innerHTML = '';
             cart.forEach(item => {
@@ -193,6 +225,9 @@
                 orderModal.classList.remove('active');
                 customerForm.reset();
             };
+            
+            // Renderizar carrito al cargar la página
+            updateCart();
             
             // Manejar envío del formulario
             customerForm.onsubmit = (e) => {
@@ -268,6 +303,7 @@
             document.getElementById('finishOrder').onclick = () => {
                 orderModal.classList.remove('active');
                 cart = [];
+                saveCart();
                 updateCart();
                 totalInput.value = '';
                 customerForm.reset();
@@ -284,5 +320,122 @@
                 }
             };
         }
+        
+        // Sistema de perfil de usuario
+        const profileIcon = document.getElementById('profileIcon');
+        const profileModal = document.getElementById('profileModal');
+        const profileForm = document.getElementById('profileForm');
+        const closeProfile = document.getElementById('closeProfile');
+        const clearProfile = document.getElementById('clearProfile');
+        const profileKey = 'ls_user_profile';
+        
+        function loadProfile() {
+            const raw = localStorage.getItem(profileKey);
+            return raw ? JSON.parse(raw) : null;
+        }
+        
+        function saveProfile(data) {
+            localStorage.setItem(profileKey, JSON.stringify(data));
+            updateProfileIcon();
+        }
+        
+        function updateProfileIcon() {
+            const profile = loadProfile();
+            console.log('Actualizando icono de perfil. Datos:', profile);
+            if (profile && (profile.name || profile.phone)) {
+                profileIcon.classList.add('filled');
+                console.log('Icono marcado como filled');
+            } else {
+                profileIcon.classList.remove('filled');
+                console.log('Icono sin filled');
+            }
+        }
+        
+        // Cargar datos del perfil al abrir el modal
+        profileIcon.addEventListener('click', () => {
+            const profile = loadProfile();
+            if (profile) {
+                document.getElementById('profileName').value = profile.name || '';
+                document.getElementById('profilePhone').value = profile.phone || '';
+                document.getElementById('profileEmail').value = profile.email || '';
+                document.getElementById('profileLocation').value = profile.location || '';
+            }
+            profileModal.classList.add('active');
+        });
+        
+        // Cerrar modal de perfil
+        closeProfile.addEventListener('click', () => {
+            profileModal.classList.remove('active');
+        });
+        
+        // Guardar perfil
+        profileForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const profileData = {
+                name: document.getElementById('profileName').value.trim(),
+                phone: document.getElementById('profilePhone').value.trim(),
+                email: document.getElementById('profileEmail').value.trim(),
+                location: document.getElementById('profileLocation').value
+            };
+            saveProfile(profileData);
+            profileModal.classList.remove('active');
+            alert('¡Datos guardados correctamente!');
+        });
+        
+        // Borrar perfil
+        clearProfile.addEventListener('click', () => {
+            const profile = loadProfile();
+            if (!profile || (!profile.name && !profile.phone && !profile.email && !profile.location)) {
+                alert('No hay datos guardados para eliminar');
+                return;
+            }
+            if (confirm('¿Estás seguro de que quieres borrar tus datos guardados?')) {
+                localStorage.removeItem(profileKey);
+                profileForm.reset();
+                updateProfileIcon();
+                alert('Datos eliminados correctamente');
+            }
+        });
+        
+        // Actualizar icono al cargar
+        updateProfileIcon();
+        
+        // Cerrar modal al hacer click fuera
+        profileModal.onclick = (e) => {
+            if (e.target === profileModal) {
+                profileModal.classList.remove('active');
+            }
+        };
+        
+        // Prevenir scroll del body cuando los modales están abiertos
+        const preventBodyScroll = () => {
+            document.body.style.overflow = 'hidden';
+        };
+        
+        const allowBodyScroll = () => {
+            document.body.style.overflow = '';
+        };
+        
+        // Observar cambios en los modales
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class') {
+                    const target = mutation.target;
+                    if (target.classList.contains('active')) {
+                        preventBodyScroll();
+                    } else {
+                        // Verificar si hay algún otro modal abierto
+                        const anyModalOpen = document.querySelector('.order-modal.active, .profile-modal.active');
+                        if (!anyModalOpen) {
+                            allowBodyScroll();
+                        }
+                    }
+                }
+            });
+        });
+        
+        // Observar ambos modales
+        if (orderModal) observer.observe(orderModal, { attributes: true });
+        if (profileModal) observer.observe(profileModal, { attributes: true });
     });
 })();
