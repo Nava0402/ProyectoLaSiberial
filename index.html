@@ -81,7 +81,7 @@
         .phone-number a{color:white; text-decoration:none; background:rgba(255,255,255,0.15); padding:15px 30px; border-radius:50px; font-size:1.4rem; font-weight:700; display:inline-block; transition:all 0.3s ease; border:2px solid rgba(255,255,255,0.3)}
         .phone-number a:hover{background:rgba(255,255,255,0.25); transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.2)}
         .phone-number i{margin-right:10px}
-        .delivery-note{font-size:1.1rem; opacity:0.9; margin-top:20px}
+        .delivery-note{font-size:0.9rem; opacity:0.8; margin-top:20px}
         
         .profile-modal{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:2000; justify-content:center; align-items:center; overflow-y:auto; padding:20px 0;}
         .profile-modal.active{display:flex;}
@@ -89,7 +89,10 @@
         .profile-content h2{color:var(--accent); margin:0 0 12px; font-size:24px; text-align:center;}
         .form-group{margin-bottom:12px;}
         .form-group label{display:block; margin-bottom:5px; font-weight:600; color:var(--dark); font-size:13px;}
-        .form-group input, .form-group select{width:100%; padding:8px 10px; border:2px solid #ddd; border-radius:8px; font-size:13px; font-family:inherit; transition:border-color 0.3s; box-sizing:border-box;}
+        .form-group input, .form-group select, .form-group textarea{width:100%; padding:8px 10px; border:2px solid #ddd; border-radius:8px; font-size:13px; font-family:inherit; transition:border-color 0.3s; box-sizing:border-box;}
+        .phone-input-group{display:flex; gap:8px;}
+        .phone-input-group .country-code-input{flex:0 0 80px; text-align:center;}
+        .phone-input-group .phone-number-input{flex:1;}
         .form-group select{cursor:pointer;}
         .form-group input:focus, .form-group select:focus{outline:none; border-color:var(--accent);}
         .modal-actions{display:flex; gap:10px; margin-top:16px;}
@@ -236,35 +239,43 @@
             <form id="profileForm">
                 <div class="form-group">
                     <label for="profileName">Nombre completo</label>
-                    <input type="text" id="profileName">
+                    <input type="text" id="profileName" placeholder="Ingresa tu nombre">
                 </div>
                 
                 <div class="form-group">
                     <label for="profilePhone">Teléfono</label>
-                    <input type="tel" id="profilePhone" pattern="[0-9]{10}">
+                    <div class="phone-input-group">
+                        <input type="text" id="profileCountryCode" class="country-code-input" placeholder="+52">
+                        <input type="tel" id="profilePhone" class="phone-number-input" placeholder="Ingresa tu teléfono" pattern="[0-9]{10}">
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="profileEmail">Correo electrónico (opcional)</label>
-                    <input type="email" id="profileEmail">
+                    <input type="email" id="profileEmail" placeholder="Ingresa tu correo">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profileAddress">Dirección</label>
+                    <input type="text" id="profileAddress" placeholder="Ingresa tu dirección">
                 </div>
                 
                 <div class="form-group">
                     <label for="profileLocation">Sucursal preferida</label>
                     <select id="profileLocation">
                         <option value="">Selecciona una sucursal</option>
-                        <option value="Sucursal Centro">Sucursal Escobedo</option>
-                        <option value="Sucursal Norte">Sucursal San Nicolás</option>
+                        <option value="Sucursal Escobedo">Sucursal Escobedo</option>
+                        <option value="Sucursal San Nicolás">Sucursal San Nicolás</option>
                     </select>
                 </div>
                 
                 <div class="modal-actions">
                     <button type="button" class="modal-btn secondary" id="closeProfile">Cancelar</button>
-                    <button type="submit" class="modal-btn primary">Guardar Datos</button>
+                    <button type="button" class="modal-btn secondary" id="clearProfile">Borrar Datos</button>
                 </div>
+                
+                <button type="submit" class="modal-btn primary" style="width:100%; margin-top:12px;">Guardar Datos</button>
             </form>
-            
-            <button type="button" class="modal-btn secondary" id="clearProfile" style="width:100%; margin-top:12px;">Borrar Datos Guardados</button>
         </div>
     </div>
 
@@ -348,7 +359,7 @@
             });
 
             renderReviews();
-        });
+        
         
         const profileIcon = document.getElementById('profileIcon');
         const profileModal = document.getElementById('profileModal');
@@ -369,9 +380,13 @@
         
         function updateProfileIcon() {
             const profile = loadProfile();
-            if (profile && profile.name && profile.phone) {
+            console.log('Actualizando icono de perfil:', profile);
+            console.log('profileIcon element:', profileIcon);
+            if (profile && (profile.name || profile.phone || profile.email || profile.location || profile.address)) {
+                console.log('Agregando clase filled');
                 profileIcon.classList.add('filled');
             } else {
+                console.log('Removiendo clase filled');
                 profileIcon.classList.remove('filled');
             }
         }
@@ -380,25 +395,87 @@
             const profile = loadProfile();
             if (profile) {
                 document.getElementById('profileName').value = profile.name || '';
+                document.getElementById('profileCountryCode').value = profile.countryCode || '';
                 document.getElementById('profilePhone').value = profile.phone || '';
                 document.getElementById('profileEmail').value = profile.email || '';
                 document.getElementById('profileLocation').value = profile.location || '';
+                document.getElementById('profileAddress').value = profile.address || '';
+                
+                // Actualizar bandera si hay código de país
+                if (profile.countryCode && window.updateCountryFlag) {
+                    setTimeout(() => {
+                        const countryInput = document.getElementById('profileCountryCode');
+                        if (countryInput) {
+                            window.updateCountryFlag(countryInput);
+                        }
+                    }, 50);
+                }
             }
             profileModal.classList.add('active');
         });
         
         closeProfile.addEventListener('click', () => {
             profileModal.classList.remove('active');
+            // Recargar los datos guardados para descartar cambios no guardados
+            const profile = loadProfile();
+            if (profile) {
+                document.getElementById('profileName').value = profile.name || '';
+                document.getElementById('profileCountryCode').value = profile.countryCode || '';
+                document.getElementById('profilePhone').value = profile.phone || '';
+                document.getElementById('profileEmail').value = profile.email || '';
+                document.getElementById('profileLocation').value = profile.location || '';
+                document.getElementById('profileAddress').value = profile.address || '';
+                
+                // Actualizar bandera si hay código de país
+                if (profile.countryCode && window.updateCountryFlag) {
+                    setTimeout(() => {
+                        const countryInput = document.getElementById('profileCountryCode');
+                        if (countryInput) {
+                            window.updateCountryFlag(countryInput);
+                        }
+                    }, 50);
+                }
+            } else {
+                profileForm.reset();
+            }
         });
         
         profileForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            
+            // Limpiar emoji de bandera del código de país antes de guardar
+            let countryCodeValue = document.getElementById('profileCountryCode').value.trim();
+            const emojiRegex = /[\u{1F1E6}-\u{1F1FF}]{2}/gu;
+            countryCodeValue = countryCodeValue.replace(emojiRegex, '').trim();
+            
             const profileData = {
                 name: document.getElementById('profileName').value.trim(),
+                countryCode: countryCodeValue,
                 phone: document.getElementById('profilePhone').value.trim(),
                 email: document.getElementById('profileEmail').value.trim(),
-                location: document.getElementById('profileLocation').value
+                location: document.getElementById('profileLocation').value,
+                address: document.getElementById('profileAddress').value.trim()
             };
+            
+            if (!profileData.name && !profileData.phone && !profileData.email && !profileData.location && !profileData.address) {
+                alert('Por favor completa al menos un campo para guardar tus datos');
+                return;
+            }
+            
+            // Si se llena el teléfono, el código de país es obligatorio
+            if (profileData.phone && !profileData.countryCode) {
+                alert('Por favor ingresa el código de país para tu teléfono');
+                document.getElementById('profileCountryCode').focus();
+                return;
+            }
+            
+            // Si hay código de país, debe empezar con +
+            if (profileData.countryCode && !profileData.countryCode.startsWith('+')) {
+                alert('El código de país debe comenzar con +');
+                document.getElementById('profileCountryCode').focus();
+                return;
+            }
+            
             saveProfile(profileData);
             profileModal.classList.remove('active');
             alert('¡Datos guardados correctamente!');
@@ -425,6 +502,92 @@
                 profileModal.classList.remove('active');
             }
         };
+        
+        // Definir función global para actualizar banderas (se comparte con script.js)
+        if (!window.updateCountryFlag) {
+            window.updateCountryFlag = function(input) {
+                const countryFlags = {
+                    '+1': '🇺🇸', '+7': '🇷🇺', '+20': '🇪🇬', '+27': '🇿🇦', '+30': '🇬🇷',
+                    '+31': '🇳🇱', '+32': '🇧🇪', '+33': '🇫🇷', '+34': '🇪🇸', '+36': '🇭🇺',
+                    '+39': '🇮🇹', '+40': '🇷🇴', '+41': '🇨🇭', '+43': '🇦🇹', '+44': '🇬🇧',
+                    '+45': '🇩🇰', '+46': '🇸🇪', '+47': '🇳🇴', '+48': '🇵🇱', '+49': '🇩🇪',
+                    '+51': '🇵🇪', '+52': '🇲🇽', '+53': '🇨🇺', '+54': '🇦🇷', '+55': '🇧🇷',
+                    '+56': '🇨🇱', '+57': '🇨🇴', '+58': '🇻🇪', '+60': '🇲🇾', '+61': '🇦🇺',
+                    '+62': '🇮🇩', '+63': '🇵🇭', '+64': '🇳🇿', '+65': '🇸🇬', '+66': '🇹🇭',
+                    '+81': '🇯🇵', '+82': '🇰🇷', '+84': '🇻🇳', '+86': '🇨🇳', '+90': '🇹🇷',
+                    '+91': '🇮🇳', '+92': '🇵🇰', '+93': '🇦🇫', '+94': '🇱🇰', '+95': '🇲🇲',
+                    '+98': '🇮🇷', '+212': '🇲🇦', '+213': '🇩🇿', '+216': '🇹🇳', '+218': '🇱🇾',
+                    '+220': '🇬🇲', '+221': '🇸🇳', '+222': '🇲🇷', '+223': '🇲🇱', '+224': '🇬🇳',
+                    '+225': '🇨🇮', '+226': '🇧🇫', '+227': '🇳🇪', '+228': '🇹🇬', '+229': '🇧🇯',
+                    '+230': '🇲🇺', '+231': '🇱🇷', '+232': '🇸🇱', '+233': '🇬🇭', '+234': '🇳🇬',
+                    '+235': '🇹🇩', '+236': '🇨🇫', '+237': '🇨🇲', '+238': '🇨🇻', '+239': '🇸🇹',
+                    '+240': '🇬🇶', '+241': '🇬🇦', '+242': '🇨🇬', '+243': '🇨🇩', '+244': '🇦🇴',
+                    '+245': '🇬🇼', '+246': '🇮🇴', '+248': '🇸🇨', '+249': '🇸🇩', '+250': '🇷🇼',
+                    '+251': '🇪🇹', '+252': '🇸🇴', '+253': '🇩🇯', '+254': '🇰🇪', '+255': '🇹🇿',
+                    '+256': '🇺🇬', '+257': '🇧🇮', '+258': '🇲🇿', '+260': '🇿🇲', '+261': '🇲🇬',
+                    '+262': '🇷🇪', '+263': '🇿🇼', '+264': '🇳🇦', '+265': '🇲🇼', '+266': '🇱🇸',
+                    '+267': '🇧🇼', '+268': '🇸🇿', '+269': '🇰🇲', '+290': '🇸🇭', '+291': '🇪🇷',
+                    '+297': '🇦🇼', '+298': '🇫🇴', '+299': '🇬🇱', '+350': '🇬🇮', '+351': '🇵🇹',
+                    '+352': '🇱🇺', '+353': '🇮🇪', '+354': '🇮🇸', '+355': '🇦🇱', '+356': '🇲🇹',
+                    '+357': '🇨🇾', '+358': '🇫🇮', '+359': '🇧🇬', '+370': '🇱🇹', '+371': '🇱🇻',
+                    '+372': '🇪🇪', '+373': '🇲🇩', '+374': '🇦🇲', '+375': '🇧🇾', '+376': '🇦🇩',
+                    '+377': '🇲🇨', '+378': '🇸🇲', '+380': '🇺🇦', '+381': '🇷🇸', '+382': '🇲🇪',
+                    '+383': '🇽🇰', '+385': '🇭🇷', '+386': '🇸🇮', '+387': '🇧🇦', '+389': '🇲🇰',
+                    '+420': '🇨🇿', '+421': '🇸🇰', '+423': '🇱🇮', '+500': '🇫🇰', '+501': '🇧🇿',
+                    '+502': '🇬🇹', '+503': '🇸🇻', '+504': '🇭🇳', '+505': '🇳🇮', '+506': '🇨🇷',
+                    '+507': '🇵🇦', '+508': '🇵🇲', '+509': '🇭🇹', '+590': '🇬🇵', '+591': '🇧🇴',
+                    '+592': '🇬🇾', '+593': '🇪🇨', '+594': '🇬🇫', '+595': '🇵🇾', '+596': '🇲🇶',
+                    '+597': '🇸🇷', '+598': '🇺🇾', '+599': '🇨🇼', '+670': '🇹🇱', '+672': '🇳🇫',
+                    '+673': '🇧🇳', '+674': '🇳🇷', '+675': '🇵🇬', '+676': '🇹🇴', '+677': '🇸🇧',
+                    '+678': '🇻🇺', '+679': '🇫🇯', '+680': '🇵🇼', '+681': '🇼🇫', '+682': '🇨🇰',
+                    '+683': '🇳🇺', '+685': '🇼🇸', '+686': '🇰🇮', '+687': '🇳🇨', '+688': '🇹🇻',
+                    '+689': '🇵🇫', '+690': '🇹🇰', '+691': '🇫🇲', '+692': '🇲🇭', '+850': '🇰🇵',
+                    '+852': '🇭🇰', '+853': '🇲🇴', '+855': '🇰🇭', '+856': '🇱🇦', '+880': '🇧🇩',
+                    '+886': '🇹🇼', '+960': '🇲🇻', '+961': '🇱🇧', '+962': '🇯🇴', '+963': '🇸🇾',
+                    '+964': '🇮🇶', '+965': '🇰🇼', '+966': '🇸🇦', '+967': '🇾🇪', '+968': '🇴🇲',
+                    '+970': '🇵🇸', '+971': '🇦🇪', '+972': '🇮🇱', '+973': '🇧🇭', '+974': '🇶🇦',
+                    '+975': '🇧🇹', '+976': '🇲🇳', '+977': '🇳🇵', '+992': '🇹🇯', '+993': '🇹🇲',
+                    '+994': '🇦🇿', '+995': '🇬🇪', '+996': '🇰🇬', '+998': '🇺🇿'
+                };
+                
+                let value = input.value.trim();
+                
+                // Remover bandera existente si la hay
+                const emojiRegex = /[\u{1F1E6}-\u{1F1FF}]{2}/gu;
+                value = value.replace(emojiRegex, '').trim();
+                
+                // Si el usuario empieza a escribir y no tiene +, agregarlo automáticamente
+                if (value.length > 0 && !value.startsWith('+')) {
+                    value = '+' + value;
+                }
+                
+                // Buscar el código de país en el valor
+                const codeMatch = value.match(/\+\d{1,4}/);
+                if (codeMatch) {
+                    const code = codeMatch[0];
+                    const flag = countryFlags[code];
+                    
+                    // Solo agregar la bandera si existe en el diccionario
+                    if (flag) {
+                        input.value = flag + ' ' + value;
+                    } else {
+                        input.value = value;
+                    }
+                } else if (value.length > 0) {
+                    // Si hay texto pero no coincide con el patrón, mantener el valor
+                    input.value = value;
+                }
+            };
+        }
+        
+        // Actualizar bandera según código de país
+        const profileCountryCodeInput = document.getElementById('profileCountryCode');
+        if (profileCountryCodeInput) {
+            profileCountryCodeInput.addEventListener('input', function() {
+                window.updateCountryFlag(this);
+            });
+        }
+        });
     </script>
 </body>
 </html>

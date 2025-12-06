@@ -91,9 +91,9 @@
         .checkout-btn{width:100%; padding:12px; background:var(--accent); color:#fff; border:0; border-radius:8px; font-weight:700}
         .checkout-btn:hover{opacity:0.95; cursor: pointer;}
         
-        .order-modal{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:2000; justify-content:center; align-items:center; overflow-y:auto; padding:20px 0;}
-        .order-modal.active{display:flex;}
-        .order-content{background:#fff; border-radius:16px; padding:24px; max-width:600px; width:90%; max-height:90vh; overflow-y:auto; box-shadow:0 8px 32px rgba(0,0,0,0.2); animation:slideIn 0.3s ease; margin:auto;}
+        .order-modal{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:2000; overflow-y:auto; padding:0;}
+        .order-modal.active{display:block;}
+        .order-content{background:#fff; border-radius:16px; padding:24px; max-width:600px; width:90%; max-height:calc(100vh - 40px); overflow-y:auto; box-shadow:0 8px 32px rgba(0,0,0,0.2); animation:slideIn 0.3s ease; margin:20px auto; position:relative;}
         @keyframes slideIn{from{transform:translateY(-50px); opacity:0;} to{transform:translateY(0); opacity:1;}}
         .order-content h2{color:var(--accent); margin:0 0 12px; font-size:24px; text-align:center;}
         .order-content p{font-size:14px;}
@@ -116,12 +116,22 @@
         .modal-btn.secondary{background:var(--muted); color:#fff;}
         .modal-btn.secondary:hover{opacity:0.9;}
         
+        .form-section{position:relative;}
+        #orderConfirmation{padding:24px;}
+        #orderConfirmation.at-top{position:fixed; top:20px; left:50%; transform:translateX(-50%); max-width:600px; width:90%; background:#fff; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.2); max-height:calc(100vh - 40px); overflow-y:auto; z-index:3000;}
         .form-group{margin-bottom:12px;}
         .form-group label{display:block; margin-bottom:5px; font-weight:600; color:var(--dark); font-size:13px;}
         .form-group input, .form-group select, .form-group textarea{width:100%; padding:8px 10px; border:2px solid #ddd; border-radius:8px; font-size:13px; font-family:inherit; transition:border-color 0.3s; box-sizing:border-box;}
+        .phone-input-group{display:flex; gap:8px;}
+        .phone-input-group .country-code-input{flex:0 0 80px; text-align:center;}
+        .phone-input-group .phone-number-input{flex:1;}
         .form-group select{cursor:pointer;}
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus{outline:none; border-color:var(--accent);}
         .form-group textarea{resize:vertical;}
+        .delivery-option-btn{flex:1; padding:10px; border:2px solid #ddd; border-radius:8px; background:white; font-size:13px; font-weight:600; cursor:pointer; transition:all 0.3s; color:var(--dark);}
+        .delivery-option-btn:hover{border-color:var(--accent); background:#fff5f0;}
+        .delivery-option-btn.active{background:var(--accent); color:white; border-color:var(--accent);}
+        .delivery-section{transition:all 0.3s;}
         .customer-info{background:var(--bg); padding:12px; border-radius:8px; margin:12px 0;}
         .customer-info h3{margin:0 0 10px; font-size:16px; color:var(--dark);}
         .info-item{margin:6px 0; font-size:13px;}
@@ -660,35 +670,43 @@
             <form id="profileForm">
                 <div class="form-group">
                     <label for="profileName">Nombre completo</label>
-                    <input type="text" id="profileName">
+                    <input type="text" id="profileName" placeholder="Ingresa tu nombre">
                 </div>
                 
                 <div class="form-group">
                     <label for="profilePhone">Teléfono</label>
-                    <input type="tel" id="profilePhone" pattern="[0-9]{10}">
+                    <div class="phone-input-group">
+                        <input type="text" id="profileCountryCode" class="country-code-input" placeholder="+52">
+                        <input type="tel" id="profilePhone" class="phone-number-input" placeholder="Ingresa tu teléfono" pattern="[0-9]{10}">
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="profileEmail">Correo electrónico (opcional)</label>
-                    <input type="email" id="profileEmail">
+                    <input type="email" id="profileEmail" placeholder="Ingresa tu correo">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profileAddress">Dirección</label>
+                    <input type="text" id="profileAddress" placeholder="Ingresa tu dirección">
                 </div>
                 
                 <div class="form-group">
                     <label for="profileLocation">Sucursal preferida</label>
                     <select id="profileLocation">
                         <option value="">Selecciona una sucursal</option>
-                        <option value="Sucursal Centro">Sucursal Escobedo</option>
-                        <option value="Sucursal Norte">Sucursal San Nicolás</option>
+                        <option value="Sucursal Escobedo">Sucursal Escobedo</option>
+                        <option value="Sucursal San Nicolás">Sucursal San Nicolás</option>
                     </select>
                 </div>
                 
                 <div class="modal-actions">
                     <button type="button" class="modal-btn secondary" id="closeProfile">Cancelar</button>
-                    <button type="submit" class="modal-btn primary">Guardar Datos</button>
+                    <button type="button" class="modal-btn secondary" id="clearProfile">Borrar Datos</button>
                 </div>
+                
+                <button type="submit" class="modal-btn primary" style="width:100%; margin-top:12px;">Guardar Datos</button>
             </form>
-            
-            <button type="button" class="modal-btn secondary" id="clearProfile" style="width:100%; margin-top:12px;">Borrar Datos Guardados</button>
         </div>
     </div>
 
@@ -710,26 +728,46 @@
                 <form id="customerForm">
                     <div class="form-group">
                         <label for="customerName">Nombre completo *</label>
-                        <input type="text" id="customerName" required>
+                        <input type="text" id="customerName" required placeholder="Ingresa tu nombre">
                     </div>
                     
                     <div class="form-group">
                         <label for="customerPhone">Teléfono *</label>
-                        <input type="tel" id="customerPhone" required pattern="[0-9]{10}">
+                        <div class="phone-input-group">
+                            <input type="text" id="customerCountryCode" class="country-code-input" placeholder="+52" required>
+                            <input type="tel" id="customerPhone" class="phone-number-input" required placeholder="Ingresa tu teléfono" pattern="[0-9]{10}">
+                        </div>
                     </div>
                     
                     <div class="form-group">
                         <label for="customerEmail">Correo electrónico (opcional)</label>
-                        <input type="email" id="customerEmail">
+                        <input type="email" id="customerEmail" placeholder="Ingresa tu correo">
                     </div>
                     
                     <div class="form-group">
-                        <label for="pickupLocation">Sucursal para recoger *</label>
-                        <select id="pickupLocation" required>
-                            <option value="">Selecciona una sucursal</option>
-                            <option value="Sucursal Centro">Sucursal Escobedo</option>
-                            <option value="Sucursal Norte">Sucursal San Nicolás</option>
-                        </select>
+                        <label>Tipo de entrega *</label>
+                        <div style="display:flex; gap:10px; margin-bottom:12px;">
+                            <button type="button" id="deliveryBtn" class="delivery-option-btn active">Entrega a domicilio</button>
+                            <button type="button" id="pickupBtn" class="delivery-option-btn">Recoger en sucursal</button>
+                        </div>
+                    </div>
+                    
+                    <div id="deliverySection" class="delivery-section">
+                        <div class="form-group">
+                            <label for="customerAddress">Dirección de entrega *</label>
+                            <input type="text" id="customerAddress" placeholder="Ingresa tu dirección">
+                        </div>
+                    </div>
+                    
+                    <div id="pickupSection" class="delivery-section" style="display:none;">
+                        <div class="form-group">
+                            <label for="pickupLocation">Sucursal para recoger *</label>
+                            <select id="pickupLocation">
+                                <option value="">Selecciona una sucursal</option>
+                                <option value="Sucursal Escobedo">Sucursal Escobedo</option>
+                                <option value="Sucursal San Nicolás">Sucursal San Nicolás</option>
+                            </select>
+                        </div>
                     </div>
                     
                     <div class="form-group">
@@ -752,7 +790,7 @@
                     <h3>Información de entrega:</h3>
                     <div class="info-item"><strong>Nombre:</strong> <span id="confirmName"></span></div>
                     <div class="info-item"><strong>Teléfono:</strong> <span id="confirmPhone"></span></div>
-                    <div class="info-item"><strong>Sucursal:</strong> <span id="confirmLocation"></span></div>
+                    <div class="info-item"><strong id="confirmLocationLabel">Dirección:</strong> <span id="confirmLocation"></span></div>
                 </div>
                 
                 <div class="order-summary">
