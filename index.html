@@ -103,10 +103,30 @@
         .modal-btn.secondary:hover{opacity:0.9;}
 
         @media (max-width:900px){
-            .hero .inner{flex-direction:column; text-align:center}
+            .hero .inner{flex-direction:column; text-align:center; padding:20px 15px;}
             .hero .left{flex:0 0 auto}
             .hero h2{font-size:1.3rem}
-            .locations{grid-template-columns:1fr}
+            .hero h1{font-size:1.8rem;}
+            .locations{grid-template-columns:1fr; padding:0 15px;}
+            .btn{padding:12px 24px; font-size:15px;}
+        }
+        
+        @media (max-width:600px){
+            header{padding:12px 15px;}
+            header h1{font-size:1.1rem;}
+            .hero h1{font-size:1.5rem; margin-bottom:15px;}
+            .hero h2{font-size:1.1rem;}
+            .hero p{font-size:0.95rem;}
+            .hero img{max-width:100%; height:auto;}
+            section{padding:30px 15px;}
+            .location-card{padding:15px;}
+            .location-card h3{font-size:1rem;}
+            .modal-content{width:95%; padding:20px; max-height:90vh; overflow-y:auto;}
+            .form-group{margin-bottom:12px;}
+            .form-group label{font-size:13px;}
+            .form-group input, .form-group select, .form-group textarea{padding:10px; font-size:14px;}
+            .modal-actions{flex-direction:column; gap:10px;}
+            .modal-btn{width:100%; padding:12px;}
         }
     </style>
 </head>

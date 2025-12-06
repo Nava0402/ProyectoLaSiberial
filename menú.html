@@ -138,7 +138,7 @@
         .info-item strong{color:var(--dark); display:inline-block; min-width:100px;}
 
         @media (max-width:900px){
-            .grid{grid-template-columns:1fr} 
+            .grid{grid-template-columns:1fr; padding:0 15px;} 
             .cart-panel{width:100%; right:-100%} 
             .cart-panel.active{right:0}
             .cart-footer{padding:12px; position:sticky; bottom:0; background:var(--card); border-top:1px solid #eee;}
@@ -165,6 +165,37 @@
             .info-item{font-size:12px; margin:5px 0;}
             .info-item strong{min-width:80px;}
             .order-modal{padding:10px 0;}
+            .menu-item{padding:12px;}
+            .menu-item h3{font-size:16px;}
+            .menu-item p{font-size:13px;}
+            .delivery-toggle{flex-direction:column; gap:8px;}
+            .toggle-btn{flex:1; padding:12px; font-size:14px;}
+        }
+        
+        @media (max-width:600px){
+            header{padding:12px 15px;}
+            header h1{font-size:1.1rem;}
+            .cart-icon{font-size:20px;}
+            .cart-count{width:16px; height:16px; font-size:10px;}
+            .grid{grid-template-columns:1fr; gap:15px;}
+            .menu-item{padding:10px;}
+            .menu-item h3{font-size:15px;}
+            .menu-item .price{font-size:16px;}
+            .cart-panel h2{font-size:18px; padding:12px;}
+            .cart-item{padding:10px; gap:10px;}
+            .cart-item img{width:60px; height:60px;}
+            .item-name{font-size:14px;}
+            .item-price{font-size:13px;}
+            .quantity-controls button{width:24px; height:24px; font-size:14px;}
+            .quantity-controls span{min-width:24px; font-size:13px;}
+            .order-content{width:98%; padding:12px; max-height:92vh;}
+            .order-content h2{font-size:18px;}
+            #orderConfirmation.at-top{width:96%; max-height:calc(100vh - 20px); top:10px;}
+            .modal-content{width:96%; padding:15px; max-height:92vh;}
+            .form-row{flex-direction:column;}
+            .form-row .form-group{width:100%;}
+            .delivery-toggle{width:100%;}
+            .toggle-btn{width:100%; padding:10px; font-size:13px;}
         }
     </style>
 </head>
