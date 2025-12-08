@@ -190,7 +190,8 @@
             .quantity-controls span{min-width:24px; font-size:13px;}
             .order-content{width:98%; padding:12px; max-height:92vh;}
             .order-content h2{font-size:18px;}
-            #orderConfirmation.at-top{width:100%; height:100vh; top:0; left:0; transform:none; padding:14px; overflow-y:scroll; -webkit-overflow-scrolling:touch; border-radius:0; max-width:none;}
+            .order-modal::before{content:''; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:2999;}
+            #orderConfirmation.at-top{width:94%; height:90vh; top:5vh; padding:14px; overflow-y:scroll; -webkit-overflow-scrolling:touch; border-radius:16px;}
             #orderConfirmation .success-icon{font-size:36px; margin:6px 0;}
             #orderConfirmation h2{font-size:18px; margin:6px 0 10px;}
             .customer-info, .order-summary, .order-steps{font-size:12px; padding:10px; margin:6px 0;}
