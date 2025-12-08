@@ -190,9 +190,20 @@
             .quantity-controls span{min-width:24px; font-size:13px;}
             .order-content{width:98%; padding:12px; max-height:92vh;}
             .order-content h2{font-size:18px;}
-            #orderConfirmation.at-top{width:96%; max-height:92vh; top:4vh; padding:16px 16px 80px; overflow-y:auto;}
-            #orderConfirmation .modal-actions{position:sticky; bottom:0; background:#fff; padding:12px 0 0; margin:12px -16px 0; border-top:1px solid #eee; z-index:10;}
-            #orderConfirmation .modal-btn{margin:0 16px; padding:14px; font-size:16px;}
+            #orderConfirmation.at-top{width:94%; max-height:90vh; top:5vh; padding:12px; overflow-y:scroll; display:flex; flex-direction:column;}
+            #orderConfirmation .success-icon{font-size:40px; margin:8px 0;}
+            #orderConfirmation h2{font-size:20px; margin:8px 0 12px;}
+            .customer-info, .order-summary, .order-steps{font-size:13px; padding:12px; margin:8px 0;}
+            .customer-info h3, .order-summary h3, .order-steps h3{font-size:14px; margin-bottom:8px;}
+            .info-item{margin:6px 0;}
+            .order-item{padding:6px 0; font-size:13px;}
+            .order-total{font-size:15px; margin-top:8px; padding-top:8px;}
+            .step-item{margin:10px 0;}
+            .step-number{width:26px; height:26px; font-size:13px;}
+            .step-text strong{font-size:13px;}
+            .step-text span{font-size:12px;}
+            #orderConfirmation .modal-actions{margin-top:auto; padding-top:12px; position:sticky; bottom:0; background:#fff;}
+            #orderConfirmation .modal-btn{padding:12px; font-size:15px; width:100%;}
             .modal-content{width:96%; padding:15px; max-height:92vh;}
             .form-row{flex-direction:column;}
             .form-row .form-group{width:100%;}
