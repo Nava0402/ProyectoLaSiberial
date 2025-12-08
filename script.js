@@ -338,7 +338,10 @@
                 
                 // Llenar información de confirmación
                 document.getElementById('confirmName').textContent = name;
-                document.getElementById('confirmPhone').textContent = fullPhone;
+                
+                // Separar el código de país del número
+                const phoneFormatted = fullPhone.replace(/(\+\d{2})(\d+)/, '$1 $2');
+                document.getElementById('confirmPhone').textContent = phoneFormatted;
                 
                 // Mostrar dirección o sucursal según el tipo de entrega
                 const confirmLocationLabel = document.getElementById('confirmLocationLabel');
@@ -369,7 +372,9 @@
                 let mensaje = `*NUEVO PEDIDO - La Siberial*%0A%0A`;
                 mensaje += `*Datos del cliente:*%0A`;
                 mensaje += `Nombre: ${name}%0A`;
-                mensaje += `Teléfono: ${fullPhone}%0A`;
+                // Codificar el + como %2B para WhatsApp
+                const phoneForWhatsApp = phoneFormatted.replace('+', '%2B');
+                mensaje += `Teléfono: ${phoneForWhatsApp}%0A`;
                 if (email) mensaje += `Email: ${email}%0A`;
                 
                 if (isDelivery) {
