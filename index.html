@@ -28,8 +28,8 @@
         .profile-icon:hover{background:rgba(255,255,255,0.1);}
         .profile-icon.filled{color:#ffdb58 !important;}
 
-        .hero{background:#d35400; color:#fff; padding:24px 16px; border-bottom:6px solid #e67e22}
-        .hero .inner{max-width:1100px; margin:0 auto; display:flex; gap:20px; align-items:center}
+        .hero{background:#d35400; color:#fff; padding:24px 16px; border-bottom:6px solid #e67e22; min-height:300px;}
+        .hero .inner{max-width:1100px; margin:0 auto; display:flex; gap:20px; align-items:center; background:#d35400;}
         .hero .left{flex:0 0 200px}
         .hero .left img{width:100%; max-width:200px; display:block; height:auto; border-radius:6px}
         .hero .right{flex:1}
@@ -103,8 +103,11 @@
         .modal-btn.secondary:hover{opacity:0.9;}
 
         @media (max-width:900px){
-            .hero .inner{flex-direction:column; text-align:center; padding:20px 15px;}
-            .hero .left{flex:0 0 auto}
+            .hero{padding:20px 15px; min-height:auto;}
+            .hero .inner{flex-direction:column; text-align:center; padding:20px 15px; gap:15px; background:#d35400;}
+            .hero .left{flex:0 0 auto; margin-bottom:10px;}
+            .hero .left img{max-width:180px; margin:0 auto;}
+            .hero .right{width:100%;}
             .hero h2{font-size:1.3rem}
             .hero h1{font-size:1.8rem;}
             .locations{grid-template-columns:1fr; padding:0 15px;}
@@ -114,10 +117,13 @@
         @media (max-width:600px){
             header{padding:12px 15px;}
             header h1{font-size:1.1rem;}
+            .hero{padding:15px;}
+            .hero .inner{padding:15px; gap:10px;}
+            .hero .left img{max-width:150px;}
             .hero h1{font-size:1.5rem; margin-bottom:15px;}
             .hero h2{font-size:1.1rem;}
             .hero p{font-size:0.95rem;}
-            .hero img{max-width:100%; height:auto;}
+            .hero .cta{padding:10px 20px; font-size:14px;}
             section{padding:30px 15px;}
             .location-card{padding:15px;}
             .location-card h3{font-size:1rem;}
