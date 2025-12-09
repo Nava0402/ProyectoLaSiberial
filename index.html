@@ -102,6 +102,8 @@
         .modal-btn.primary:hover{opacity:0.9;}
         .modal-btn.secondary{background:var(--muted); color:#fff;}
         .modal-btn.secondary:hover{opacity:0.9;}
+        .form-row{display:flex; gap:12px;}
+        .form-row .form-group{flex:1;}
 
         @media (max-width:900px){
             .hero{padding:20px 15px; min-height:auto;}
@@ -298,6 +300,36 @@
                         <option value="Sucursal San Nicolás">Sucursal San Nicolás</option>
                     </select>
                 </div>
+
+                <div class="form-group">
+                    <label for="profilePaymentMethod">Método de pago preferido</label>
+                    <select id="profilePaymentMethod">
+                        <option value="">Selecciona un método de pago</option>
+                        <option value="Efectivo">Efectivo</option>
+                        <option value="Tarjeta">Tarjeta</option>
+                    </select>
+                </div>
+
+                <div id="cardFields" style="display:none;">
+                    <div class="form-group">
+                        <label for="cardNumber">Número de tarjeta</label>
+                        <input type="text" id="cardNumber" placeholder="---- ---- ---- ----" maxlength="19">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cardExpiry">Fecha de expiración</label>
+                            <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="cardCVV">CVV</label>
+                            <input type="text" id="cardCVV" placeholder="---" maxlength="4">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardName">Nombre en la tarjeta</label>
+                        <input type="text" id="cardName" placeholder="Como aparece en tu tarjeta">
+                    </div>
+                </div>
                 
                 <div class="modal-actions">
                     <button type="button" class="modal-btn secondary" id="closeProfile">Cancelar</button>
@@ -397,6 +429,43 @@
         const closeProfile = document.getElementById('closeProfile');
         const clearProfile = document.getElementById('clearProfile');
         const profileKey = 'ls_user_profile';
+        const profilePaymentMethod = document.getElementById('profilePaymentMethod');
+        const cardFields = document.getElementById('cardFields');
+        
+        // Show/hide card fields based on payment method
+        profilePaymentMethod.addEventListener('change', (e) => {
+            if (e.target.value === 'Tarjeta') {
+                cardFields.style.display = 'block';
+            } else {
+                cardFields.style.display = 'none';
+                // Clear card fields when switching away from Tarjeta
+                document.getElementById('cardNumber').value = '';
+                document.getElementById('cardExpiry').value = '';
+                document.getElementById('cardCVV').value = '';
+                document.getElementById('cardName').value = '';
+            }
+        });
+        
+        // Format card number with spaces every 4 digits
+        document.getElementById('cardNumber').addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\s/g, ''); // Remove spaces
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value; // Add space every 4 digits
+            e.target.value = formattedValue;
+        });
+        
+        // Format card expiry with auto-slash MM/YY
+        document.getElementById('cardExpiry').addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+            if (value.length >= 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            e.target.value = value;
+        });
+        
+        // Allow only digits in CVV
+        document.getElementById('cardCVV').addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
         
         function loadProfile() {
             const raw = localStorage.getItem(profileKey);
@@ -412,7 +481,7 @@
             const profile = loadProfile();
             console.log('Actualizando icono de perfil:', profile);
             console.log('profileIcon element:', profileIcon);
-            if (profile && (profile.name || profile.phone || profile.email || profile.location || profile.address)) {
+            if (profile && (profile.name || profile.phone || profile.email || profile.location || profile.address || profile.paymentMethod)) {
                 console.log('Agregando clase filled');
                 profileIcon.classList.add('filled');
             } else {
@@ -430,6 +499,20 @@
                 document.getElementById('profileEmail').value = profile.email || '';
                 document.getElementById('profileLocation').value = profile.location || '';
                 document.getElementById('profileAddress').value = profile.address || '';
+                document.getElementById('profilePaymentMethod').value = profile.paymentMethod || '';
+                
+                // Load card data if exists
+                document.getElementById('cardNumber').value = profile.cardNumber || '';
+                document.getElementById('cardExpiry').value = profile.cardExpiry || '';
+                document.getElementById('cardCVV').value = profile.cardCVV || '';
+                document.getElementById('cardName').value = profile.cardName || '';
+                
+                // Show card fields if payment method is Tarjeta
+                if (profile.paymentMethod === 'Tarjeta') {
+                    cardFields.style.display = 'block';
+                } else {
+                    cardFields.style.display = 'none';
+                }
                 
                 // Actualizar bandera si hay código de país
                 if (profile.countryCode && window.updateCountryFlag) {
@@ -484,10 +567,15 @@
                 phone: document.getElementById('profilePhone').value.trim(),
                 email: document.getElementById('profileEmail').value.trim(),
                 location: document.getElementById('profileLocation').value,
-                address: document.getElementById('profileAddress').value.trim()
+                address: document.getElementById('profileAddress').value.trim(),
+                paymentMethod: document.getElementById('profilePaymentMethod').value,
+                cardNumber: document.getElementById('cardNumber').value.trim(),
+                cardExpiry: document.getElementById('cardExpiry').value.trim(),
+                cardCVV: document.getElementById('cardCVV').value.trim(),
+                cardName: document.getElementById('cardName').value.trim()
             };
             
-            if (!profileData.name && !profileData.phone && !profileData.email && !profileData.location && !profileData.address) {
+            if (!profileData.name && !profileData.phone && !profileData.email && !profileData.location && !profileData.address && !profileData.paymentMethod) {
                 alert('Por favor completa al menos un campo para guardar tus datos');
                 return;
             }
@@ -513,7 +601,7 @@
         
         clearProfile.addEventListener('click', () => {
             const profile = loadProfile();
-            if (!profile || (!profile.name && !profile.phone && !profile.email && !profile.location)) {
+            if (!profile || (!profile.name && !profile.phone && !profile.email && !profile.location && !profile.address && !profile.paymentMethod)) {
                 alert('No hay datos guardados para eliminar');
                 return;
             }

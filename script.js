@@ -459,6 +459,58 @@
         const closeProfile = document.getElementById('closeProfile');
         const clearProfile = document.getElementById('clearProfile');
         const profileKey = 'ls_user_profile';
+        const profilePaymentMethod = document.getElementById('profilePaymentMethod');
+        const cardFields = document.getElementById('cardFields');
+        
+        // Show/hide card fields based on payment method
+        if (profilePaymentMethod && cardFields) {
+            profilePaymentMethod.addEventListener('change', (e) => {
+                if (e.target.value === 'Tarjeta') {
+                    cardFields.style.display = 'block';
+                } else {
+                    cardFields.style.display = 'none';
+                    // Clear card fields when switching away from Tarjeta
+                    const cardNumber = document.getElementById('cardNumber');
+                    const cardExpiry = document.getElementById('cardExpiry');
+                    const cardCVV = document.getElementById('cardCVV');
+                    const cardName = document.getElementById('cardName');
+                    if (cardNumber) cardNumber.value = '';
+                    if (cardExpiry) cardExpiry.value = '';
+                    if (cardCVV) cardCVV.value = '';
+                    if (cardName) cardName.value = '';
+                }
+            });
+        }
+        
+        // Format card number with spaces every 4 digits
+        const cardNumberInput = document.getElementById('cardNumber');
+        if (cardNumberInput) {
+            cardNumberInput.addEventListener('input', (e) => {
+                let value = e.target.value.replace(/\s/g, ''); // Remove spaces
+                let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value; // Add space every 4 digits
+                e.target.value = formattedValue;
+            });
+        }
+        
+        // Format card expiry with auto-slash MM/YY
+        const cardExpiryInput = document.getElementById('cardExpiry');
+        if (cardExpiryInput) {
+            cardExpiryInput.addEventListener('input', (e) => {
+                let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+                if (value.length >= 2) {
+                    value = value.slice(0, 2) + '/' + value.slice(2, 4);
+                }
+                e.target.value = value;
+            });
+        }
+        
+        // Allow only digits in CVV
+        const cardCVVInput = document.getElementById('cardCVV');
+        if (cardCVVInput) {
+            cardCVVInput.addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/\D/g, '');
+            });
+        }
         
         function loadProfile() {
             const raw = localStorage.getItem(profileKey);
@@ -473,7 +525,7 @@
         function updateProfileIcon() {
             const profile = loadProfile();
             console.log('Actualizando icono de perfil. Datos:', profile);
-            if (profile && (profile.name || profile.phone || profile.email || profile.location || profile.address)) {
+            if (profile && (profile.name || profile.phone || profile.email || profile.location || profile.address || profile.paymentMethod)) {
                 profileIcon.classList.add('filled');
                 console.log('Icono marcado como filled');
             } else {
@@ -482,7 +534,7 @@
             }
         }
         
-        // Cargar datos del perfil al abrir el modal
+        // Abrir modal al hacer click en el icono de perfil
         profileIcon.addEventListener('click', () => {
             const profile = loadProfile();
             if (profile) {
@@ -492,6 +544,51 @@
                 document.getElementById('profileEmail').value = profile.email || '';
                 document.getElementById('profileLocation').value = profile.location || '';
                 document.getElementById('profileAddress').value = profile.address || '';
+                document.getElementById('profilePaymentMethod').value = profile.paymentMethod || '';
+                
+                // Load card data if exists
+                const cardNumber = document.getElementById('cardNumber');
+                const cardExpiry = document.getElementById('cardExpiry');
+                const cardCVV = document.getElementById('cardCVV');
+                const cardName = document.getElementById('cardName');
+                if (cardNumber) cardNumber.value = profile.cardNumber || '';
+                if (cardExpiry) cardExpiry.value = profile.cardExpiry || '';
+                if (cardCVV) cardCVV.value = profile.cardCVV || '';
+                if (cardName) cardName.value = profile.cardName || '';
+                
+                // Show card fields if payment method is Tarjeta
+                if (cardFields && profile.paymentMethod === 'Tarjeta') {
+                    cardFields.style.display = 'block';
+                } else if (cardFields) {
+                    cardFields.style.display = 'none';
+                }
+                
+                // Actualizar bandera si hay código de país
+                if (profile.countryCode && window.updateCountryFlag) {
+                    setTimeout(() => {
+                        const countryInput = document.getElementById('profileCountryCode');
+                        if (countryInput) {
+                            window.updateCountryFlag(countryInput);
+                        }
+                    }, 50);
+                }
+            } else {
+                profileForm.reset();
+            }
+            profileModal.classList.add('active');
+        });
+        
+        // Cargar datos del perfil al iniciar
+        document.addEventListener('DOMContentLoaded', () => {
+            const profile = loadProfile();
+            if (profile) {
+                document.getElementById('profileName').value = profile.name || '';
+                document.getElementById('profileCountryCode').value = profile.countryCode || '';
+                document.getElementById('profilePhone').value = profile.phone || '';
+                document.getElementById('profileEmail').value = profile.email || '';
+                document.getElementById('profileLocation').value = profile.location || '';
+                document.getElementById('profileAddress').value = profile.address || '';
+                document.getElementById('profilePaymentMethod').value = profile.paymentMethod || '';
                 
                 // Actualizar bandera si hay código de país
                 if (profile.countryCode && window.updateCountryFlag) {
@@ -503,7 +600,6 @@
                     }, 50);
                 }
             }
-            profileModal.classList.add('active');
         });
         
         // Cerrar modal de perfil
@@ -548,10 +644,15 @@
                 phone: document.getElementById('profilePhone').value.trim(),
                 email: document.getElementById('profileEmail').value.trim(),
                 location: document.getElementById('profileLocation').value,
-                address: document.getElementById('profileAddress').value.trim()
+                address: document.getElementById('profileAddress').value.trim(),
+                paymentMethod: document.getElementById('profilePaymentMethod').value,
+                cardNumber: document.getElementById('cardNumber') ? document.getElementById('cardNumber').value.trim() : '',
+                cardExpiry: document.getElementById('cardExpiry') ? document.getElementById('cardExpiry').value.trim() : '',
+                cardCVV: document.getElementById('cardCVV') ? document.getElementById('cardCVV').value.trim() : '',
+                cardName: document.getElementById('cardName') ? document.getElementById('cardName').value.trim() : ''
             };
             
-            if (!profileData.name && !profileData.phone && !profileData.email && !profileData.location && !profileData.address) {
+            if (!profileData.name && !profileData.phone && !profileData.email && !profileData.location && !profileData.address && !profileData.paymentMethod) {
                 alert('Por favor completa al menos un campo para guardar tus datos');
                 return;
             }
@@ -578,7 +679,7 @@
         // Borrar perfil
         clearProfile.addEventListener('click', () => {
             const profile = loadProfile();
-            if (!profile || (!profile.name && !profile.phone && !profile.email && !profile.location && !profile.address)) {
+            if (!profile || (!profile.name && !profile.phone && !profile.email && !profile.location && !profile.address && !profile.paymentMethod)) {
                 alert('No hay datos guardados para eliminar');
                 return;
             }

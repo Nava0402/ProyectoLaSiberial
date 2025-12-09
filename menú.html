@@ -136,6 +136,8 @@
         .customer-info h3{margin:0 0 10px; font-size:16px; color:var(--dark);}
         .info-item{margin:6px 0; font-size:13px;}
         .info-item strong{color:var(--dark); display:inline-block; min-width:100px;}
+        .form-row{display:flex; gap:12px;}
+        .form-row .form-group{flex:1;}
 
         @media (max-width:900px){
             .grid{grid-template-columns:1fr;} 
@@ -743,6 +745,36 @@
                         <option value="Sucursal San Nicolás">Sucursal San Nicolás</option>
                     </select>
                 </div>
+
+                <div class="form-group">
+                    <label for="profilePaymentMethod">Método de pago preferido</label>
+                    <select id="profilePaymentMethod">
+                        <option value="">Selecciona un método de pago</option>
+                        <option value="Efectivo">Efectivo</option>
+                        <option value="Tarjeta">Tarjeta</option>
+                    </select>
+                </div>
+
+                <div id="cardFields" style="display:none;">
+                    <div class="form-group">
+                        <label for="cardNumber">Número de tarjeta</label>
+                        <input type="text" id="cardNumber" placeholder="---- ---- ---- ----" maxlength="19">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cardExpiry">Fecha de expiración</label>
+                            <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="cardCVV">CVV</label>
+                            <input type="text" id="cardCVV" placeholder="---" maxlength="4">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardName">Nombre en la tarjeta</label>
+                        <input type="text" id="cardName" placeholder="Como aparece en tu tarjeta">
+                    </div>
+                </div>
                 
                 <div class="modal-actions">
                     <button type="button" class="modal-btn secondary" id="closeProfile">Cancelar</button>
@@ -847,13 +879,13 @@
                 </div>
                 
                 <div class="order-steps">
-                    <h3>Pasos para recoger tu orden:</h3>
+                    <h3>Pasos a seguir:</h3>
                     
                     <div class="step-item">
                         <div class="step-number">1</div>
                         <div class="step-text">
                             <strong>Mensaje enviado por WhatsApp</strong>
-                            <span>Tu pedido ha sido enviado directamente por WhatsApp. Recibirás confirmación en unos minutos.</span>
+                            <span>Tu pedido ha sido enviado directamente por WhatsApp.</span>
                         </div>
                     </div>
                     
