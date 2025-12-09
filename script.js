@@ -21,6 +21,7 @@
         const cartIcon = document.querySelector('.cart-icon');
         const cartPanel = document.querySelector('.cart-panel');
         const cartClose = document.querySelector('.cart-close');
+        const clearCartBtn = document.querySelector('.clear-cart-btn');
         const cartItems = document.querySelector('.cart-items');
         const summaryItems = document.querySelector('.summary-items');
         const subtotalAmount = document.querySelector('.subtotal-amount');
@@ -34,6 +35,19 @@
         cartIcon.addEventListener('click', () => cartPanel.classList.add('active'));
         cartClose.addEventListener('click', () => cartPanel.classList.remove('active'));
         checkoutBtn.addEventListener('click', handleCheckout);
+        
+        // Clear cart button
+        clearCartBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert('El carrito ya está vacío');
+                return;
+            }
+            if (confirm('¿Quieres vaciar el carrito?')) {
+                cart = [];
+                saveCart();
+                updateCart();
+            }
+        });
         
         // Renderizar carrito guardado al cargar la página
         updateCart();
@@ -208,6 +222,38 @@
                     document.getElementById('pickupLocation').value = locationValue;
                 }
                 
+                // Load payment method and card data if available
+                if (profile.paymentMethod) {
+                    const cashBtn = document.getElementById('cashBtn');
+                    const cardBtn = document.getElementById('cardBtn');
+                    
+                    if (cashBtn && cardBtn) {
+                        // Set active button based on saved payment method
+                        if (profile.paymentMethod === 'Tarjeta') {
+                            cardBtn.classList.add('active');
+                            cashBtn.classList.remove('active');
+                            
+                            const customerCardFields = document.getElementById('customerCardFields');
+                            if (customerCardFields) {
+                                customerCardFields.style.display = 'block';
+                                if (profile.cardNumber) document.getElementById('customerCardNumber').value = profile.cardNumber;
+                                if (profile.cardExpiry) document.getElementById('customerCardExpiry').value = profile.cardExpiry;
+                                if (profile.cardCVV) document.getElementById('customerCardCVV').value = profile.cardCVV;
+                                if (profile.cardName) document.getElementById('customerCardName').value = profile.cardName;
+                                
+                                // Set required fields
+                                document.getElementById('customerCardNumber').required = true;
+                                document.getElementById('customerCardExpiry').required = true;
+                                document.getElementById('customerCardCVV').required = true;
+                                document.getElementById('customerCardName').required = true;
+                            }
+                        } else {
+                            cashBtn.classList.add('active');
+                            cardBtn.classList.remove('active');
+                        }
+                    }
+                }
+                
                 // Actualizar bandera si hay código de país
                 if (profile.countryCode && window.updateCountryFlag) {
                     setTimeout(() => {
@@ -262,6 +308,62 @@
             const pickupSection = document.getElementById('pickupSection');
             const customerAddress = document.getElementById('customerAddress');
             const pickupLocation = document.getElementById('pickupLocation');
+            const cashBtn = document.getElementById('cashBtn');
+            const cardBtn = document.getElementById('cardBtn');
+            const customerCardFields = document.getElementById('customerCardFields');
+            
+            // Show/hide card fields based on payment method button selection
+            if (cashBtn && cardBtn && customerCardFields) {
+                cashBtn.addEventListener('click', () => {
+                    cashBtn.classList.add('active');
+                    cardBtn.classList.remove('active');
+                    customerCardFields.style.display = 'none';
+                    document.getElementById('customerCardNumber').required = false;
+                    document.getElementById('customerCardExpiry').required = false;
+                    document.getElementById('customerCardCVV').required = false;
+                    document.getElementById('customerCardName').required = false;
+                });
+                
+                cardBtn.addEventListener('click', () => {
+                    cardBtn.classList.add('active');
+                    cashBtn.classList.remove('active');
+                    customerCardFields.style.display = 'block';
+                    document.getElementById('customerCardNumber').required = true;
+                    document.getElementById('customerCardExpiry').required = true;
+                    document.getElementById('customerCardCVV').required = true;
+                    document.getElementById('customerCardName').required = true;
+                });
+            }
+            
+            // Format customer card number
+            const customerCardNumber = document.getElementById('customerCardNumber');
+            if (customerCardNumber) {
+                customerCardNumber.addEventListener('input', (e) => {
+                    let value = e.target.value.replace(/\D/g, '');
+                    let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                    e.target.value = formattedValue;
+                });
+            }
+            
+            // Format customer card expiry
+            const customerCardExpiry = document.getElementById('customerCardExpiry');
+            if (customerCardExpiry) {
+                customerCardExpiry.addEventListener('input', (e) => {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length >= 2) {
+                        value = value.slice(0, 2) + '/' + value.slice(2, 4);
+                    }
+                    e.target.value = value;
+                });
+            }
+            
+            // Format customer card CVV
+            const customerCardCVV = document.getElementById('customerCardCVV');
+            if (customerCardCVV) {
+                customerCardCVV.addEventListener('input', (e) => {
+                    e.target.value = e.target.value.replace(/\D/g, '');
+                });
+            }
             
             deliveryBtn.addEventListener('click', () => {
                 deliveryBtn.classList.add('active');
@@ -333,6 +435,21 @@
                 const pickupLocation = document.getElementById('pickupLocation').value;
                 const comments = document.getElementById('comments').value;
                 
+                // Get payment method from active button
+                const cardBtn = document.getElementById('cardBtn');
+                const paymentMethod = cardBtn.classList.contains('active') ? 'Tarjeta' : 'Efectivo';
+                let cardNumber = '';
+                let cardExpiry = '';
+                let cardCVV = '';
+                let cardName = '';
+                
+                if (paymentMethod === 'Tarjeta') {
+                    cardNumber = document.getElementById('customerCardNumber').value;
+                    cardExpiry = document.getElementById('customerCardExpiry').value;
+                    cardCVV = document.getElementById('customerCardCVV').value;
+                    cardName = document.getElementById('customerCardName').value;
+                }
+                
                 // Determinar tipo de entrega
                 const isDelivery = deliveryBtn.classList.contains('active');
                 
@@ -345,12 +462,35 @@
                 
                 // Mostrar dirección o sucursal según el tipo de entrega
                 const confirmLocationLabel = document.getElementById('confirmLocationLabel');
+                const confirmPaymentMethodItem = document.getElementById('confirmPaymentMethodItem');
+                const deliverySteps = document.getElementById('deliverySteps');
+                const pickupSteps = document.getElementById('pickupSteps');
+                
                 if (isDelivery) {
                     confirmLocationLabel.textContent = 'Dirección:';
                     document.getElementById('confirmLocation').textContent = address || 'No especificada';
+                    
+                    // Show payment method for delivery
+                    if (confirmPaymentMethodItem) {
+                        confirmPaymentMethodItem.style.display = 'block';
+                        document.getElementById('confirmPaymentMethod').textContent = paymentMethod;
+                    }
+                    
+                    // Show delivery steps
+                    if (deliverySteps) deliverySteps.style.display = 'block';
+                    if (pickupSteps) pickupSteps.style.display = 'none';
                 } else {
                     confirmLocationLabel.textContent = 'Sucursal:';
                     document.getElementById('confirmLocation').textContent = pickupLocation;
+                    
+                    // Hide payment method for pickup
+                    if (confirmPaymentMethodItem) {
+                        confirmPaymentMethodItem.style.display = 'none';
+                    }
+                    
+                    // Show pickup steps
+                    if (deliverySteps) deliverySteps.style.display = 'none';
+                    if (pickupSteps) pickupSteps.style.display = 'block';
                 }
                 
                 // Llenar resumen del pedido en confirmación
@@ -380,6 +520,16 @@
                 if (isDelivery) {
                     mensaje += `%0A*Tipo de entrega:* Entrega a domicilio%0A`;
                     if (address) mensaje += `Dirección: ${address}%0A`;
+                    
+                    // Add payment method info for delivery
+                    if (paymentMethod) {
+                        mensaje += `%0A*Método de pago:* ${paymentMethod}%0A`;
+                        if (paymentMethod === 'Tarjeta') {
+                            mensaje += `Tarjeta: **** **** **** ${cardNumber.slice(-4)}%0A`;
+                            mensaje += `Vencimiento: ${cardExpiry}%0A`;
+                            mensaje += `Nombre: ${cardName}%0A`;
+                        }
+                    }
                 } else {
                     mensaje += `%0A*Tipo de entrega:* Recoger en sucursal%0A`;
                     mensaje += `Sucursal: ${pickupLocation}%0A`;
@@ -486,7 +636,7 @@
         const cardNumberInput = document.getElementById('cardNumber');
         if (cardNumberInput) {
             cardNumberInput.addEventListener('input', (e) => {
-                let value = e.target.value.replace(/\s/g, ''); // Remove spaces
+                let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
                 let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value; // Add space every 4 digits
                 e.target.value = formattedValue;
             });

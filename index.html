@@ -313,7 +313,7 @@
                 <div id="cardFields" style="display:none;">
                     <div class="form-group">
                         <label for="cardNumber">Número de tarjeta</label>
-                        <input type="text" id="cardNumber" placeholder="---- ---- ---- ----" maxlength="19">
+                        <input type="text" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX" maxlength="19">
                     </div>
                     <div class="form-row">
                         <div class="form-group">
@@ -322,7 +322,7 @@
                         </div>
                         <div class="form-group">
                             <label for="cardCVV">CVV</label>
-                            <input type="text" id="cardCVV" placeholder="---" maxlength="4">
+                            <input type="text" id="cardCVV" placeholder="XXX" maxlength="4">
                         </div>
                     </div>
                     <div class="form-group">
@@ -448,7 +448,7 @@
         
         // Format card number with spaces every 4 digits
         document.getElementById('cardNumber').addEventListener('input', (e) => {
-            let value = e.target.value.replace(/\s/g, ''); // Remove spaces
+            let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
             let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value; // Add space every 4 digits
             e.target.value = formattedValue;
         });
